@@ -1,10 +1,11 @@
 module Onfleet
   module Actions
-    module Update
+    module Delete
       module ClassMethods
-        def update id, params
-          params.merge!(id: id)
-          self.new(params).save
+        def delete id
+          url = "#{self.url}/#{id}"
+          response = Onfleet.request(url, :delete)
+          true
         end
       end
 

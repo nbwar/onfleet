@@ -2,18 +2,14 @@ module Onfleet
   class Recipient < OnfleetObject
     include Onfleet::Actions::Create
     include Onfleet::Actions::Update
+    include Onfleet::Actions::Save
+    include Onfleet::Actions::Find
+    include Onfleet::Actions::Get
 
-    attr_accessor :id, :name, :phone, :notes, :skip_sms_notification, :skip_phone_nuber_validation
+    attr_accessor :id, :name, :phone, :notes, :skip_sms_notifications, :skip_phone_nuber_validation, :time_created, :time_last_modified, :metadata
 
-    class << Self
-      def create params={}
-
-      end
-    end
-
-    def url
+    def self.url
       "/recipients"
     end
-
   end
 end

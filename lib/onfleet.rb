@@ -29,6 +29,7 @@ require 'onfleet/address'
 require 'onfleet/task'
 require 'onfleet/organization'
 require 'onfleet/admin'
+require 'onfleet/team'
 
 
 module Onfleet

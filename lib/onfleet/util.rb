@@ -22,11 +22,12 @@ module Onfleet
 
     def self.object_classes
       @object_classes ||= {
-        "address" => Address,
-        "recipients" => Recipient,
-        "recipient" => Recipient,
-        "tasks" => Task,
-        "destination" => Destination
+        "address"     => Address,
+        "recipients"  => Recipient,
+        "recipient"   => Recipient,
+        "tasks"       => Task,
+        "destination" => Destination,
+        "vehicle"     => Vehicle
       }
     end
   end

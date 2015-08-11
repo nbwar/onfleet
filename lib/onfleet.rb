@@ -30,6 +30,8 @@ require 'onfleet/task'
 require 'onfleet/organization'
 require 'onfleet/admin'
 require 'onfleet/team'
+require 'onfleet/vehicle'
+require 'onfleet/worker'
 
 
 module Onfleet

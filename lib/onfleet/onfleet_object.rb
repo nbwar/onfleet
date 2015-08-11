@@ -55,7 +55,7 @@ module Onfleet
 
       def parse_onfleet_obj obj
         if obj.is_a?(OnfleetObject)
-          if obj.is_a?(Destination) || obj.is_a?(Recipient)
+          if obj.is_a?(Destination) || obj.is_a?(Recipient) || obj.is_a?(Task)
              obj.id
           else
             obj.attributes
@@ -67,8 +67,7 @@ module Onfleet
         params.each do |key, value|
           key_underscore = Util.to_underscore(key)
 
-          klass = Util.object_classes[key.to_s]
-          if klass
+          if klass = Util.object_classes[key.to_s]
             case value
             when Array
               objs = []
@@ -78,8 +77,6 @@ module Onfleet
               value = objs
             when Hash
               value = klass.new(value)
-            else
-              raise ArgumentError.new("shit is fucked")
             end
           end
 

@@ -28,6 +28,8 @@ require 'onfleet/destination'
 require 'onfleet/address'
 require 'onfleet/task'
 require 'onfleet/organization'
+require 'onfleet/admin'
+
 
 module Onfleet
   @base_url = "https://onfleet.com/api/v2"
@@ -38,6 +40,7 @@ module Onfleet
 
   def self.request url, method, params={}
     raise AuthenticationError.new("Set your API Key using Onfleet.api_key = <API_KEY>") unless @api_key
+    p self.base_url+url
     begin
       response = RestClient::Request.execute(method: method, url: self.base_url+url, payload: params.to_json, headers: self.request_headers)
 

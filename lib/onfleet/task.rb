@@ -13,10 +13,11 @@ module Onfleet
     end
 
     def complete
-      # CURRENTLY DOESN'T WORK WITH API
-      # url = "#{self.url}/#{self.id}/complete"
-      # params = {"completionDetails" => {"success" => "true" }}
-      # response = Onfleet.request(url, :post, params)
+      # CURRENTLY DOESN'T WORK
+      url = "#{self.url}/#{self.id}/complete"
+      params = {"completionDetails" => {"success" => true }}
+      Onfleet.request(url, :post, params)
+      true
     end
 
   end

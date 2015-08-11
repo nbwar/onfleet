@@ -25,7 +25,7 @@ Onfleet::Recipient
 Onfleet::Task
 ```
 
-### Organizations
+## Organizations
 
 **GET**
 
@@ -53,7 +53,7 @@ delegatee.country # => "US"
 ```
 
 
-### Administrators
+## Administrators
 
 Available parameters.
 
@@ -88,7 +88,7 @@ list = Onfleet::Admin.list # => [<Onfleet::Admin>]
 list.first # => Onfleet::Admin
 ```
 
-### Workers
+## Workers
 Worker
 | Name        | Type   | Description  |
 | ----------- |--------| --------------|
@@ -143,7 +143,7 @@ Onfleet::Worker.list
 worker = Onfleet::Worker.get('WORKER_ID')
 ```
 
-### Teams
+## Teams
 
 **List**
 ```ruby
@@ -155,7 +155,7 @@ Onfleet::Team.list
 Onfleet::Team.get('TEAM_ID')
 ```
 
-### Destinations
+## Destinations
 Destination
 | Name        | Type   | Description  |
 | ----------- |--------| --------------|
@@ -193,7 +193,7 @@ destination.postal_code # => '94103'
 Onfleet::Destination('DEST_ID')
 ```
 
-### Recipients
+## Recipients
 | Name        | Type   | Description  |
 | ----------- |--------| --------------|
 | name        | string | The recipient's full name. |
@@ -236,7 +236,7 @@ rec.name = "John Doe"
 rec = Onfleet::Recipient.find('phone', '4155556789')
 ```
 
-###Tasks
+##Tasks
 | Name        | Type   | Description  |
 | ----------- |--------| --------------|
 | destination     | string | `ID` of the destination. |

@@ -34,6 +34,8 @@ module Onfleet
                 objs << parse_onfleet_obj(object)
               end
               attrs[Util.to_camel_case_lower(str).to_sym] = objs
+            else
+              attrs[Util.to_camel_case_lower(str).to_sym] = instance_var
             end
           else
             attrs[Util.to_camel_case_lower(str).to_sym] = instance_var
@@ -83,9 +85,16 @@ module Onfleet
           if respond_to?("#{key_underscore}=")
             send(:"#{key_underscore}=", value)
           else
-            raise ArgumentError.new("Cannot set '#{key_underscore}' for class '#{class_name}'.")
+            add_attrs({"#{key_underscore}" => value})
           end
 
+        end
+      end
+
+      def add_attrs attrs
+        attrs.each do |var, value|
+          self.class.class_eval { attr_accessor var }
+          instance_variable_set "@#{var}", value
         end
       end
 

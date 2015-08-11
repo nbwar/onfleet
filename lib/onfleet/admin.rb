@@ -6,7 +6,6 @@ module Onfleet
     include Onfleet::Actions::List
     include Onfleet::Actions::Delete
 
-    attr_accessor :id, :time_created, :time_last_modified, :organization, :email, :type, :name, :is_active, :phone, :list, :metadata
 
     def self.url
       '/admins'

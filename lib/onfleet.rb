@@ -43,7 +43,7 @@ module Onfleet
 
   def self.request url, method, params={}
     raise AuthenticationError.new("Set your API Key using Onfleet.api_key = <API_KEY>") unless @api_key
-    p self.base_url+url
+
     begin
       response = RestClient::Request.execute(method: method, url: self.base_url+url, payload: params.to_json, headers: self.request_headers)
 

@@ -6,8 +6,6 @@ module Onfleet
     include Onfleet::Actions::Find
     include Onfleet::Actions::Get
 
-    attr_accessor :id, :name, :phone, :notes, :skip_sms_notifications, :skip_phone_nuber_validation, :time_created, :time_last_modified, :metadata
-
     def self.url
       "/recipients"
     end

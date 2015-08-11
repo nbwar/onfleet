@@ -7,9 +7,6 @@ module Onfleet
     include Onfleet::Actions::List
     include Onfleet::Actions::Delete
 
-    attr_accessor :id, :time_created, :time_last_modified, :organization, :short_id, :worker, :merchant, :executor,
-                  :creator, :destination, :recipients, :state, :complete_after, :complete_before, :pickup_task, :notes,
-                  :dependencies, :auto_assign, :tracking_url, :completion_details, :feedback, :metadata
 
     def self.url
       '/tasks'

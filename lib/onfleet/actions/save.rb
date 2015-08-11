@@ -2,7 +2,7 @@ module Onfleet
   module Actions
     module Save
       def save
-        if self.id
+        if respond_to?('id') && self.id
           request_type = :put
           url = "#{self.url}/#{self.id}"
         else

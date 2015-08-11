@@ -1,6 +1,5 @@
 module Onfleet
   class Organization < OnfleetObject
-    attr_accessor :id, :time_created, :time_last_modified, :name, :email, :timezone, :country, :delegatees
 
     class << self
       def get

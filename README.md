@@ -6,7 +6,7 @@ Ruby SDK for Onfleet.com's API. **This is NOT an official SDK**. [Official Docum
 ## Usage
 Install the gem.
 ```bash
-gem install ruby
+gem install onfleet-ruby
 ```
 
 Set the API Key.

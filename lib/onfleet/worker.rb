@@ -8,7 +8,7 @@ module Onfleet
     include Onfleet::Actions::Delete
 
     attr_accessor :id, :name, :phone, :teams, :vehicle, :organization, :time_created, :time_last_modified,
-                  :active_task, :tasks, :on_duty, :location, :time_last_seen, :delay_time, :metadata
+                  :active_task, :tasks, :on_duty, :location, :time_last_seen, :delay_time, :image, :metadata
 
     def self.url
       '/workers'

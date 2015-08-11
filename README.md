@@ -55,7 +55,6 @@ delegatee.country # => "US"
 
 ## Administrators
 
-Available parameters.
 
 | Name        | Type   | Description  |
 | ----------- |--------| --------------|
@@ -90,6 +89,7 @@ list.first # => Onfleet::Admin
 
 ## Workers
 Worker
+
 | Name        | Type   | Description  |
 | ----------- |--------| --------------|
 | name        | string | The workers complete name. |
@@ -98,6 +98,7 @@ Worker
 | vehicle     | obect | (Optional) The worker’s vehicle, providing no vehicle details is interpreted as the worker being on foot. |
 
 Vehicle
+
 | Name          | Type   | Description  |
 | ------------- |--------| --------------|
 | type          | string | The vehicle’s type, must be one of `CAR`, `MOTORCYCLE`, `BICYCLE` or `TRUCK`. |
@@ -157,6 +158,7 @@ Onfleet::Team.get('TEAM_ID')
 
 ## Destinations
 Destination
+
 | Name        | Type   | Description  |
 | ----------- |--------| --------------|
 | address        | object | The destination’s street address details. |
@@ -164,6 +166,7 @@ Destination
 | notes     | string | (Optional) Notes for the destination |
 
 Address
+
 | Name        | Type   | Description  |
 | ----------- |--------| --------------|
 | number       | string | The number component of this address, it may also contain letters. |

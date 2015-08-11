@@ -27,6 +27,7 @@ require 'onfleet/recipient'
 require 'onfleet/destination'
 require 'onfleet/address'
 require 'onfleet/task'
+require 'onfleet/organization'
 
 module Onfleet
   @base_url = "https://onfleet.com/api/v2"

@@ -1,10 +1,11 @@
 module Onfleet
   module Actions
-    module Update
+    module Get
       module ClassMethods
-        def update id, params
-          params.merge!(id: id)
-          self.new(params).save
+        def get id
+          url = "#{self.url}/#{id}"
+          response  = Onfleet.request(url, :get)
+          Util.constantize("#{self}").new(response)
         end
       end
 

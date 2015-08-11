@@ -7,7 +7,7 @@ Gem::Specification.new do |s|
   s.authors     = ["Nick Wargnier"]
   s.email       = 'nick@stylelend.com'
   s.homepage    =
-    'http://rubygems.org/gems/onfleet'
+    'http://rubygems.org/gems/onfleet-ruby'
   s.license     = 'MIT'
 
   s.add_dependency('rest-client', '~> 1.4')

@@ -161,7 +161,7 @@ Destination
 | ----------- |--------| --------------|
 | address        | object | The destination’s street address details. |
 | location       | array | (Optional) The `[ longitude, latitude ]` geographic coordinates. If missing, the API will geocode based on the `address` details provided. Note that geocoding may slightly modify the format of the address properties. |
-| notes     | string | (Optional) Notes for the destination|
+| notes     | string | (Optional) Notes for the destination |
 
 Address
 | Name        | Type   | Description  |

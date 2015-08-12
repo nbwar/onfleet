@@ -288,6 +288,23 @@ Onfleet::Task.list({state: 0}) # => returns all tasks with state 0, see official
 Currently not supported
 
 
+##Error Handling
+```ruby
+begin
+  # perform onfleet api requests
+rescue AuthenticationError => e
+  # API authentication issues
+rescue ConnectionError => e
+  # API connection Problems
+rescue InvalidRequestError => e
+  # Bad request/invalid request params
+  # also if resource is not found
+rescue OnfleetError => e
+  # general error
+end
+
+```
+
 ## TODO
 1. Tests
 2. Better error handling

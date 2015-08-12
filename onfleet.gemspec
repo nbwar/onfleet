@@ -6,8 +6,7 @@ Gem::Specification.new do |s|
   s.description = "To interact with Onfleet's API"
   s.authors     = ["Nick Wargnier"]
   s.email       = 'nick@stylelend.com'
-  s.homepage    =
-    'http://rubygems.org/gems/onfleet-ruby'
+  s.homepage    = 'http://rubygems.org/gems/onfleet-ruby'
   s.license     = 'MIT'
 
   s.add_dependency('rest-client', '~> 1.4')

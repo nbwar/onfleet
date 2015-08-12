@@ -1,6 +1,6 @@
 Gem::Specification.new do |s|
   s.name        = 'onfleet-ruby'
-  s.version     = '0.0.2'
+  s.version     = '0.0.4'
   s.date        = '2015-08-03'
   s.summary     = "Onfleet ruby api"
   s.description = "To interact with Onfleet's API"
@@ -11,7 +11,7 @@ Gem::Specification.new do |s|
 
   s.add_dependency('rest-client', '~> 1.4')
 
-  s.add_development_dependency "rspec"
+  s.add_development_dependency("rspec",'~> 3.3.0', '>= 3.0.0')
 
 
   s.files         = `git ls-files`.split("\n")

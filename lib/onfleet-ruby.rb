@@ -3,7 +3,7 @@ require 'json'
 require 'base64'
 
 # Utils
-require 'onfleet-ruby/Util'
+require 'onfleet-ruby/util'
 
 # Errors
 require 'onfleet-ruby/errors/onfleet_error'

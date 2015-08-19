@@ -5,7 +5,7 @@ module Onfleet
     include Onfleet::Actions::Get
 
 
-    def self.url
+    def self.api_url
       '/destinations'
     end
   end

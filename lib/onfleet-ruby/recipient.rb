@@ -6,7 +6,7 @@ module Onfleet
     include Onfleet::Actions::Find
     include Onfleet::Actions::Get
 
-    def self.url
+    def self.api_url
       "/recipients"
     end
   end

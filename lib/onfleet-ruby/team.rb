@@ -3,7 +3,7 @@ module Onfleet
     include Onfleet::Actions::List
     include Onfleet::Actions::Get
 
-    def self.url
+    def self.api_url
       '/teams'
     end
   end

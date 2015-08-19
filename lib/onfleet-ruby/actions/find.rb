@@ -3,8 +3,8 @@ module Onfleet
     module Find
       module ClassMethods
         def find field, search_term
-          url = "#{self.url}/#{field}/#{search_term}"
-          response = Onfleet.request(url, :get, search_term)
+          api_url = "#{self.api_url}/#{field}/#{search_term}"
+          response = Onfleet.request(api_url, :get, search_term)
           Util.constantize("#{self}").new(response)
         end
       end

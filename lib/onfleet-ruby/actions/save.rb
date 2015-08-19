@@ -4,12 +4,12 @@ module Onfleet
       def save
         if respond_to?('id') && self.id
           request_type = :put
-          url = "#{self.url}/#{self.id}"
+          api_url = "#{self.api_url}/#{self.id}"
         else
           request_type  = :post
-          url = self.url
+          api_url = self.api_url
         end
-        response = Onfleet.request(url, request_type, self.attributes)
+        response = Onfleet.request(api_url, request_type, self.attributes)
         self.parse_response(response)
       end
     end

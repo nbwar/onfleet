@@ -49,7 +49,7 @@ module Onfleet
       self.class.name.split("::").last
     end
 
-    def url
+    def api_url
       "/#{CGI.escape(class_name.downcase)}s"
     end
 

@@ -32,6 +32,7 @@ require 'onfleet-ruby/admin'
 require 'onfleet-ruby/team'
 require 'onfleet-ruby/vehicle'
 require 'onfleet-ruby/worker'
+require 'onfleet-ruby/webhook'
 
 
 module Onfleet
@@ -41,11 +42,14 @@ module Onfleet
     attr_accessor :api_key, :base_url, :encoded_api_key
   end
 
-  def self.request url, method, params={}
+  def self.request api_url, method, params={}
     raise AuthenticationError.new("Set your API Key using Onfleet.api_key = <API_KEY>") unless @api_key
 
     begin
-      response = RestClient::Request.execute(method: method, url: self.base_url+url, payload: params.to_json, headers: self.request_headers)
+      p '*' * 100
+      p self.base_url+api_url
+      p method
+      response = RestClient::Request.execute(method: method, url: self.base_url+api_url, payload: params.to_json, headers: self.request_headers)
 
       if response != ''
         JSON.parse(response)

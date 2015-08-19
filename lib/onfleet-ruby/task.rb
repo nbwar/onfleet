@@ -8,7 +8,7 @@ module Onfleet
     include Onfleet::Actions::Delete
 
 
-    def self.url
+    def self.api_url
       '/tasks'
     end
 

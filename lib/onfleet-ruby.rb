@@ -46,9 +46,6 @@ module Onfleet
     raise AuthenticationError.new("Set your API Key using Onfleet.api_key = <API_KEY>") unless @api_key
 
     begin
-      p '*' * 100
-      p self.base_url+api_url
-      p method
       response = RestClient::Request.execute(method: method, url: self.base_url+api_url, payload: params.to_json, headers: self.request_headers)
 
       if response != ''

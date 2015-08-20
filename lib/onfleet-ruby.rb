@@ -1,6 +1,7 @@
 require 'rest-client'
 require 'json'
 require 'base64'
+require 'uri'
 
 # Utils
 require 'onfleet-ruby/util'

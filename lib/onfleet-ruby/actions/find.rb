@@ -3,7 +3,8 @@ module Onfleet
     module Find
       module ClassMethods
         def find field, search_term
-          api_url = "#{self.api_url}/#{field}/#{search_term}"
+          encoded_term = URI::encode(search_term)
+          api_url = "#{self.api_url}/#{field}/#{encoded_term}"
           response = Onfleet.request(api_url, :get, search_term)
           Util.constantize("#{self}").new(response)
         end

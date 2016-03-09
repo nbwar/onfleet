@@ -20,7 +20,7 @@ require 'onfleet-ruby/actions/update'
 require 'onfleet-ruby/actions/get'
 require 'onfleet-ruby/actions/list'
 require 'onfleet-ruby/actions/delete'
-
+require 'onfleet-ruby/actions/query_metadata'
 
 # Resources
 require 'onfleet-ruby/onfleet_object'

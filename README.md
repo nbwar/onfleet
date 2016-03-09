@@ -60,7 +60,7 @@ delegatee.country # => "US"
 | ----------- |--------| --------------|
 | name        | string | The administrator’s complete name. |
 | email       | string | The administrator’s email address. |
-| phone     | string | (Optional) The administrator's E.164-formatted phone number. |
+| phone       | string | (Optional) The administrator's E.164-formatted phone number. |
 
 **Create**
 
@@ -242,8 +242,8 @@ rec = Onfleet::Recipient.find('phone', '4155556789')
 ##Tasks
 | Name        | Type   | Description  |
 | ----------- |--------| --------------|
-| destination     | string | `ID` of the destination. |
-| recipients     | string array | An array containing zero or one IDs of the task's recipients |
+| destination     | string | `ID` of the destination, or the Destination data itself |
+| recipients     | string array | An array containing zero or one IDs of the task's recipients; alternately, an array containing Recipient data as entries |
 | merchant        | string | (Optional) `ID` of merchant organization. |
 | executor       | string | (Optional) `ID` of the executor organization. |
 | complete_after     | number | (Optional)  A timestamp for the earliest time the task should be completed. |
@@ -257,7 +257,23 @@ rec = Onfleet::Recipient.find('phone', '4155556789')
 ```ruby
 # First Create a destination and Recipient
 # Then create the task
-task = Onfleet::Task.create({recipient: ['REC_ID'], destination: 'DEC_ID' })
+task = Onfleet::Task.create({recipients: ['REC_ID'], destination: 'DEC_ID' })
+
+# Alternatively, create the Destination and Recipient in a single call to Onfleet
+# If a recipient exists for the phone number, it will be updated with the new information
+another_task = Onfleet::Task.create(
+  destination: {
+      address: {
+          unparsed: "123 Smith St"
+      },
+      notes: "Some destination notes"
+  },
+  recipients: [{
+      name: "Foo Bar",
+      phone: "987-654-3210",
+      notes: "Some recipient notes"
+  }]
+)
 ```
 
 **Update**

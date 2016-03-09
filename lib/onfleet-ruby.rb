@@ -21,7 +21,6 @@ require 'onfleet-ruby/actions/get'
 require 'onfleet-ruby/actions/list'
 require 'onfleet-ruby/actions/delete'
 
-
 # Resources
 require 'onfleet-ruby/onfleet_object'
 require 'onfleet-ruby/recipient'

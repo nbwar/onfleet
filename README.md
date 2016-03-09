@@ -242,8 +242,8 @@ rec = Onfleet::Recipient.find('phone', '4155556789')
 ##Tasks
 | Name        | Type   | Description  |
 | ----------- |--------| --------------|
-| destination     | string | `ID` of the destination, or the Destination data itself |
-| recipients     | string array | An array containing zero or one IDs of the task's recipients; alternately, an array containing Recipient data as entries |
+| destination     | string or hash | `ID` of the destination, or the Destination data itself |
+| recipients     | array of string or hash | An array containing zero or one IDs of the task's recipients; alternately, an array containing Recipient data as entries |
 | merchant        | string | (Optional) `ID` of merchant organization. |
 | executor       | string | (Optional) `ID` of the executor organization. |
 | complete_after     | number | (Optional)  A timestamp for the earliest time the task should be completed. |

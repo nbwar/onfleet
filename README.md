@@ -300,8 +300,13 @@ Currently not supported
 | subtype  | string | (Optional) Required only for entries of type array, used for future visualization purposes. Must be one of [ ‘boolean’, ‘number’, ‘string’, ‘object’ ]. |
 | value    | string | The value of the property. The JSON type must match the type (and subtype) provided for the entry. |
 
+```ruby
+# Returns an array with entities matching the metadata query
+# Any entity supporting metadata can be queried (eg: Admins, Workers, Tasks, Destinations, Recipients)
+tasks = Onfleet::Task.query_by_metadata([{name: "property", type: "string", value: "abc"}])
+```
 
-##Error Handling
+## Error Handling
 ```ruby
 begin
   # perform onfleet api requests

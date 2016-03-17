@@ -6,7 +6,7 @@ module Onfleet
     include Onfleet::Actions::Save
     include Onfleet::Actions::Update
     include Onfleet::Actions::Delete
-
+    include Onfleet::Actions::QueryMetadata
 
     def self.api_url
       '/workers'

@@ -3,7 +3,7 @@ module Onfleet
     include Onfleet::Actions::Create
     include Onfleet::Actions::Save
     include Onfleet::Actions::Get
-
+    include Onfleet::Actions::QueryMetadata
 
     def self.api_url
       '/destinations'

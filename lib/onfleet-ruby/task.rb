@@ -6,7 +6,7 @@ module Onfleet
     include Onfleet::Actions::Get
     include Onfleet::Actions::List
     include Onfleet::Actions::Delete
-
+    include Onfleet::Actions::QueryMetadata
 
     def self.api_url
       '/tasks'

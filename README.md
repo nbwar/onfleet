@@ -60,7 +60,8 @@ delegatee.country # => "US"
 | ----------- |--------| --------------|
 | name        | string | The administrator’s complete name. |
 | email       | string | The administrator’s email address. |
-| phone       | string | (Optional) The administrator's E.164-formatted phone number. |
+| phone     | string | (Optional) The administrator's E.164-formatted phone number. |
+| metadata  | array  | (Optional) Any associated metadata |
 
 **Create**
 
@@ -95,7 +96,8 @@ Worker
 | name        | string | The workers complete name. |
 | phone       | string | The worker's phone number. |
 | teams     | string Array | One or more team IDs of which the worker is a member.|
-| vehicle     | obect | (Optional) The worker’s vehicle, providing no vehicle details is interpreted as the worker being on foot. |
+| vehicle     | object | (Optional) The worker’s vehicle, providing no vehicle details is interpreted as the worker being on foot. |
+| metadata    | array  | (Optional) Any associated metadata |
 
 Vehicle
 
@@ -164,6 +166,7 @@ Destination
 | address        | object | The destination’s street address details. |
 | location       | array | (Optional) The `[ longitude, latitude ]` geographic coordinates. If missing, the API will geocode based on the `address` details provided. Note that geocoding may slightly modify the format of the address properties. |
 | notes     | string | (Optional) Notes for the destination |
+| metadata  | array  | (Optional) Any associated metadata |
 
 Address
 
@@ -178,7 +181,6 @@ Address
 | state     | string |  (Optional) State name |
 | postal_code     | string | (Optional) The postal code |
 | unparsed     | string | (Optional) A complete comma seperated address for ex. `148 townsend, 94102, USA`. Including this field, all other address details will be ignored. The address will be automatically geocoded. |
-
 
 
 
@@ -204,6 +206,7 @@ Onfleet::Destination('DEST_ID')
 | notes     | string | (Optional) Notes for the recipient. |
 | skip_sms_notifications     | boolean | (Optional) To disable sms notification. Defaults to `false` |
 | skip_phone_number_verificaton     | boolean | (Optional) Whether to skip validation of the phone number. |
+| metadata  | array  | (Optional) Any associated metadata |
 
 **Create**
 ```ruby
@@ -239,7 +242,7 @@ rec.name = "John Doe"
 rec = Onfleet::Recipient.find('phone', '4155556789')
 ```
 
-##Tasks
+## Tasks
 | Name        | Type   | Description  |
 | ----------- |--------| --------------|
 | destination     | string or hash | `ID` of the destination, or the Destination data itself |
@@ -252,6 +255,7 @@ rec = Onfleet::Recipient.find('phone', '4155556789')
 | dependencies     | string array | (Optional) One or more IDs of tasks which must be completed prior to this task. |
 | notes     | notes | (Optional) Notes for the task. |
 | auto_assign     | object | (Optional) The automatic assignment options for the newly created task. See above for exact object structure and allowed values. |
+| metadata  | array  | (Optional) Any associated metadata |
 
 **Create**
 ```ruby
@@ -304,7 +308,21 @@ Onfleet::Task.list({state: 0}) # => returns all tasks with state 0, see official
 Currently not supported
 
 
-##Error Handling
+## Metadata
+| Name        | Type   | Description  |
+| ----------- |--------| --------------|
+| name     | string | the name of the property |
+| type     | string | The type of the property. Must be one of [ ‘boolean’, ‘number’, ‘string’, ‘object’, ‘array’ ] |
+| subtype  | string | (Optional) Required only for entries of type array, used for future visualization purposes. Must be one of [ ‘boolean’, ‘number’, ‘string’, ‘object’ ]. |
+| value    | string | The value of the property. The JSON type must match the type (and subtype) provided for the entry. |
+
+```ruby
+# Returns an array with entities matching the metadata query
+# Any entity supporting metadata can be queried (eg: Admins, Workers, Tasks, Destinations, Recipients)
+tasks = Onfleet::Task.query_by_metadata([{name: "property", type: "string", value: "abc"}])
+```
+
+## Error Handling
 ```ruby
 begin
   # perform onfleet api requests

@@ -5,6 +5,7 @@ module Onfleet
     include Onfleet::Actions::Save
     include Onfleet::Actions::Find
     include Onfleet::Actions::Get
+    include Onfleet::Actions::QueryMetadata
 
     def self.api_url
       "/recipients"

@@ -1,2 +1,2 @@
-require 'onfleet'
-require File.expand_path('./test_data', __FILE__)
+require 'onfleet-ruby'
+require File.expand_path('../test_data', __FILE__)

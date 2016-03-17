@@ -57,7 +57,7 @@ module Onfleet
 
       def parse_onfleet_obj obj
         if obj.is_a?(OnfleetObject)
-          if obj.is_a?(Destination) || obj.is_a?(Recipient) || obj.is_a?(Task)
+          if obj.respond_to?('id') && obj.id && (obj.is_a?(Destination) || obj.is_a?(Recipient) || obj.is_a?(Task))
              obj.id
           else
             obj.attributes

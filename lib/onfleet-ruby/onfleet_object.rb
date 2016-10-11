@@ -21,9 +21,9 @@ module Onfleet
 
     def attributes
       attrs = Hash.new
-      instance_variables.each do |var|
+      instance_variables.select {|var| var != '@params'}.each do |var|
         str = var.to_s.gsub /^@/, ''
-        if respond_to? "#{str}="
+        if respond_to?("#{str}=")
           instance_var = instance_variable_get(var)
           if klass = Util.object_classes[str]
             if instance_var.is_a?(OnfleetObject)

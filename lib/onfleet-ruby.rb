@@ -47,7 +47,7 @@ module Onfleet
     raise AuthenticationError.new("Set your API Key using Onfleet.api_key = <API_KEY>") unless @api_key
 
     begin
-      response = RestClient::Request.execute(method: method, url: self.base_url+api_url, payload: params.to_json, headers: self.request_headers)
+      response = RestClient::Request.execute(method: method, url: self.base_url+api_url, payload: params.to_json, headers: self.request_headers, content_type: :json)
 
       if response != ''
         JSON.parse(response)
@@ -66,7 +66,9 @@ module Onfleet
   private
     def self.request_headers
       {
-        Authorization: "Basic #{self.encoded_api_key}"
+        Authorization: "Basic #{self.encoded_api_key}",
+        content_type: :json,
+        accept: :json
       }
     end
 

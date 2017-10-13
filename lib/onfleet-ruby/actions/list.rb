@@ -6,7 +6,7 @@ module Onfleet
           api_url = "#{self.api_url}"
 
           if !query_params.empty?
-            api_url += "?"
+            api_url += "/all?"
             query_params.each do |key, value|
               api_url += "#{key}=#{value}&"
             end

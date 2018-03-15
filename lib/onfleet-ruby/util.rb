@@ -1,5 +1,7 @@
 module Onfleet
   class Util
+    SPECIAL_PARSE = { "skip_sms_notifications" => "skipSMSNotifications" }
+
     def self.constantize class_name
       Object.const_get(class_name)
     end
@@ -16,8 +18,7 @@ module Onfleet
     end
 
     def self.to_camel_case_lower str
-      str.split('_').inject([]){ |buffer,e| buffer.push(buffer.empty? ? e : e.capitalize) }.join
-
+      SPECIAL_PARSE[str] || str.camelize(:lower)
     end
 
     def self.object_classes

@@ -15,7 +15,7 @@ module Onfleet
     def complete
       # CURRENTLY DOESN'T WORK
       url = "#{self.url}/#{self.id}/complete"
-      params = { "completionDetails" => { "success" => true } }
+      params = { 'completionDetails' => { 'success' => true } }
       Onfleet.request(url, :post, params)
       true
     end

@@ -46,7 +46,7 @@ module Onfleet
     end
 
     def class_name
-      self.class.name.split("::").last
+      self.class.name.split('::').last
     end
 
     def api_url

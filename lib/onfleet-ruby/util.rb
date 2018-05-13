@@ -1,6 +1,6 @@
 module Onfleet
   class Util
-    SPECIAL_PARSE = { "skip_sms_notifications" => "skipSMSNotifications" }
+    SPECIAL_PARSE = { 'skip_sms_notifications' => 'skipSMSNotifications' }
 
     def self.constantize(class_name)
       Object.const_get(class_name)
@@ -14,7 +14,7 @@ module Onfleet
         .gsub(/::/, '/')
         .gsub(/([A-Z]+)([A-Z][a-z])/, '\1_\2')
         .gsub(/([a-z\d])([A-Z])/, '\1_\2')
-        .tr("-", "_")
+        .tr('-', '_')
         .downcase
     end
 
@@ -24,12 +24,12 @@ module Onfleet
 
     def self.object_classes
       @object_classes ||= {
-        "address"     => Address,
-        "recipients"  => Recipient,
-        "recipient"   => Recipient,
-        "tasks"       => Task,
-        "destination" => Destination,
-        "vehicle"     => Vehicle
+        'address'     => Address,
+        'recipients'  => Recipient,
+        'recipient'   => Recipient,
+        'tasks'       => Task,
+        'destination' => Destination,
+        'vehicle'     => Vehicle
       }
     end
   end

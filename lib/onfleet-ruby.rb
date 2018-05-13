@@ -36,13 +36,13 @@ require 'onfleet-ruby/worker'
 require 'onfleet-ruby/webhook'
 
 module Onfleet
-  @base_url = "https://onfleet.com/api/v2"
+  @base_url = 'https://onfleet.com/api/v2'
 
   class << self
     attr_accessor :api_key, :base_url
 
     def request(api_url, method, params = {})
-      raise AuthenticationError.new("Set your API Key using Onfleet.api_key = <API_KEY>") unless @api_key
+      raise AuthenticationError.new('Set your API Key using Onfleet.api_key = <API_KEY>') unless @api_key
 
       begin
         response = RestClient::Request.execute(method: method, url: base_url + api_url, payload: params.to_json, headers: request_headers)
@@ -78,22 +78,22 @@ module Onfleet
     def handle_api_error(code, body)
       case code
       when 400, 404
-        raise InvalidRequestError.new(body["message"])
+        raise InvalidRequestError.new(body['message'])
       when 401
-        raise AuthenticationError.new(body["message"])
+        raise AuthenticationError.new(body['message'])
       else
-        raise OnfleetError.new(body["message"])
+        raise OnfleetError.new(body['message'])
       end
     end
 
     def handle_restclient_error(e)
       case e
       when RestClient::RequestTimeout
-        message = "Could not connect to Onfleet. Check your internet connection and try again."
+        message = 'Could not connect to Onfleet. Check your internet connection and try again.'
       when RestClient::ServerBrokeConnection
-        message = "The connetion with onfleet terminated before the request completed. Please try again."
+        message = 'The connetion with onfleet terminated before the request completed. Please try again.'
       else
-        message = "There was a problem connection with Onfleet. Please try again. If the problem persists contact contact@onfleet.com"
+        message = 'There was a problem connection with Onfleet. Please try again. If the problem persists contact contact@onfleet.com'
       end
 
       raise ConnectionError.new(message)

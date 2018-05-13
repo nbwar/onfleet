@@ -2,7 +2,7 @@ module Onfleet
   class Organization < OnfleetObject
     class << self
       def get
-        url = "/organization"
+        url = '/organization'
         response = Onfleet.request(url, :get)
         Util.constantize("#{self}").new(response)
       end

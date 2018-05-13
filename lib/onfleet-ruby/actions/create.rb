@@ -2,7 +2,7 @@ module Onfleet
   module Actions
     module Create
       module ClassMethods
-        def create params={}
+        def create params = {}
           self.new(params).save
         end
       end

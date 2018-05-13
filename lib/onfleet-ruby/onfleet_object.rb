@@ -6,7 +6,7 @@ module Onfleet
         @params = params
         set_attributes(@params)
       elsif params.kind_of?(String)
-        @params = {id: params}
+        @params = { id: params }
         set_attributes(@params)
       else
         @params = {}
@@ -21,7 +21,7 @@ module Onfleet
 
     def attributes
       attrs = Hash.new
-      instance_variables.select {|var| var != '@params'}.each do |var|
+      instance_variables.select { |var| var != '@params' }.each do |var|
         str = var.to_s.gsub /^@/, ''
         if respond_to?("#{str}=")
           instance_var = instance_variable_get(var)
@@ -85,7 +85,7 @@ module Onfleet
         if respond_to?("#{key_underscore}=")
           send(:"#{key_underscore}=", value)
         else
-          add_attrs({"#{key_underscore}" => value})
+          add_attrs({ "#{key_underscore}" => value })
         end
       end
     end

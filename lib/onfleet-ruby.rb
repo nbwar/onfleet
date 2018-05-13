@@ -39,7 +39,7 @@ module Onfleet
   @base_url = "https://onfleet.com/api/v2"
 
   class << self
-    attr_accessor :api_key, :base_url, :encoded_api_key
+    attr_accessor :api_key, :base_url
   end
 
   def self.request api_url, method, params = {}

@@ -5,7 +5,7 @@ module Onfleet
         def get(id)
           api_url = "#{self.api_url}/#{id}"
           response = Onfleet.request(api_url, :get)
-          Util.constantize("#{self}").new(response)
+          Util.constantize(name).new(response)
         end
       end
 

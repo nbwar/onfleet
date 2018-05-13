@@ -3,7 +3,7 @@ module Onfleet
     module List
       module ClassMethods
         def list(query_params = {})
-          api_url = "#{self.api_url}"
+          api_url = self.api_url
 
           if !query_params.empty?
             api_url += '?'
@@ -14,7 +14,7 @@ module Onfleet
 
           response = Onfleet.request(api_url, :get)
           response.compact.map do |listObj|
-            Util.constantize("#{self}").new(listObj)
+            Util.constantize(name).new(listObj)
           end
         end
       end

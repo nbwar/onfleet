@@ -6,7 +6,7 @@ module Onfleet
           encoded_term = URI.encode_www_form_component(search_term)
           api_url = "#{self.api_url}/#{field}/#{encoded_term}"
           response = Onfleet.request(api_url, :get, search_term)
-          Util.constantize("#{self}").new(response)
+          Util.constantize(name).new(response)
         end
       end
 

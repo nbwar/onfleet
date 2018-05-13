@@ -85,7 +85,7 @@ module Onfleet
         if respond_to?("#{key_underscore}=")
           send(:"#{key_underscore}=", value)
         else
-          add_attrs("#{key_underscore}" => value)
+          add_attrs(key_underscore.to_s => value)
         end
       end
     end

@@ -4,7 +4,7 @@ module Onfleet
       module ClassMethods
         def delete id
           api_url = "#{self.api_url}/#{id}"
-          response = Onfleet.request(api_url, :delete)
+          Onfleet.request(api_url, :delete)
           true
         end
       end

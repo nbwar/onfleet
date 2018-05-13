@@ -22,7 +22,7 @@ module Onfleet
     def attributes
       attrs = Hash.new
       instance_variables.select { |var| var != '@params' }.each do |var|
-        str = var.to_s.gsub /^@/, ''
+        str = var.to_s.gsub(/^@/, '')
         if respond_to?("#{str}=")
           instance_var = instance_variable_get(var)
           if klass = Util.object_classes[str]

@@ -25,7 +25,7 @@ module Onfleet
         str = var.to_s.gsub(/^@/, '')
         if respond_to?("#{str}=")
           instance_var = instance_variable_get(var)
-          if klass = Util.object_classes[str]
+          if (klass = Util.object_classes[str])
             if instance_var.is_a?(OnfleetObject)
               attrs[Util.to_camel_case_lower(str).to_sym] = parse_onfleet_obj(instance_var)
             elsif instance_var.is_a?(Array)
@@ -69,7 +69,7 @@ module Onfleet
       params.each do |key, value|
         key_underscore = Util.to_underscore(key)
 
-        if klass = Util.object_classes[key.to_s]
+        if (klass = Util.object_classes[key.to_s])
           case value
           when Array
             objs = []

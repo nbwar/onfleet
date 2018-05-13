@@ -52,7 +52,7 @@ module Onfleet
         JSON.parse(response)
       end
     rescue RestClient::ExceptionWithResponse => e
-      if response_code = e.http_code and response_body = e.http_body
+      if (response_code = e.http_code) and (response_body = e.http_body)
         handle_api_error(response_code, JSON.parse(response_body))
       else
         handle_restclient_error(e)

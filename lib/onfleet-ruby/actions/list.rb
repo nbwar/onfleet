@@ -2,7 +2,7 @@ module Onfleet
   module Actions
     module List
       module ClassMethods
-        def list query_params = {}
+        def list(query_params = {})
           api_url = "#{self.api_url}"
 
           if !query_params.empty?
@@ -19,7 +19,7 @@ module Onfleet
         end
       end
 
-      def self.included base
+      def self.included(base)
         base.extend(ClassMethods)
       end
     end

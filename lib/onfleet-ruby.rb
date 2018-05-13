@@ -41,7 +41,7 @@ module Onfleet
   class << self
     attr_accessor :api_key, :base_url
 
-    def request api_url, method, params = {}
+    def request(api_url, method, params = {})
       raise AuthenticationError.new("Set your API Key using Onfleet.api_key = <API_KEY>") unless @api_key
 
       begin
@@ -75,7 +75,7 @@ module Onfleet
       @encoded_api_key ||= Base64.urlsafe_encode64(api_key)
     end
 
-    def handle_api_error code, body
+    def handle_api_error(code, body)
       case code
       when 400, 404
         raise InvalidRequestError.new(body["message"])
@@ -86,7 +86,7 @@ module Onfleet
       end
     end
 
-    def handle_restclient_error e
+    def handle_restclient_error(e)
       case e
       when RestClient::RequestTimeout
         message = "Could not connect to Onfleet. Check your internet connection and try again."

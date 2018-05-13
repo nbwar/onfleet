@@ -1,7 +1,7 @@
 module Onfleet
   class OnfleetObject
     attr_reader :params
-    def initialize params
+    def initialize(params)
       if params.kind_of?(Hash)
         @params = params
         set_attributes(@params)
@@ -13,14 +13,14 @@ module Onfleet
       end
     end
 
-    def parse_response response
+    def parse_response(response)
       @params = response
       set_attributes(response)
       self
     end
 
     def attributes
-      attrs = Hash.new
+      attrs = {}
       instance_variables.select { |var| var != '@params' }.each do |var|
         str = var.to_s.gsub(/^@/, '')
         if respond_to?("#{str}=")
@@ -55,7 +55,7 @@ module Onfleet
 
     private
 
-    def parse_onfleet_obj obj
+    def parse_onfleet_obj(obj)
       if obj.is_a?(OnfleetObject)
         if obj.respond_to?('id') && obj.id && (obj.is_a?(Destination) || obj.is_a?(Recipient) || obj.is_a?(Task))
           obj.id
@@ -65,7 +65,7 @@ module Onfleet
       end
     end
 
-    def set_attributes params
+    def set_attributes(params)
       params.each do |key, value|
         key_underscore = Util.to_underscore(key)
 
@@ -85,12 +85,12 @@ module Onfleet
         if respond_to?("#{key_underscore}=")
           send(:"#{key_underscore}=", value)
         else
-          add_attrs({ "#{key_underscore}" => value })
+          add_attrs("#{key_underscore}" => value)
         end
       end
     end
 
-    def add_attrs attrs
+    def add_attrs(attrs)
       attrs.each do |var, value|
         self.class.class_eval { attr_accessor var }
         instance_variable_set "@#{var}", value

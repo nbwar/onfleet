@@ -2,12 +2,12 @@ module Onfleet
   module Actions
     module Create
       module ClassMethods
-        def create params = {}
+        def create(params = {})
           self.new(params).save
         end
       end
 
-      def self.included base
+      def self.included(base)
         base.extend(ClassMethods)
       end
     end

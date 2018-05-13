@@ -7,7 +7,7 @@ module Onfleet
         Util.constantize("#{self}").new(response)
       end
 
-      def get_delegatee_details id
+      def get_delegatee_details(id)
         url = "/organizations/#{id}"
         response = Onfleet.request(url, :get)
         Util.constantize("#{self}").new(response)

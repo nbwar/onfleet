@@ -2,11 +2,11 @@ module Onfleet
   class Util
     SPECIAL_PARSE = { "skip_sms_notifications" => "skipSMSNotifications" }
 
-    def self.constantize class_name
+    def self.constantize(class_name)
       Object.const_get(class_name)
     end
 
-    def self.to_underscore key
+    def self.to_underscore(key)
       if key.kind_of?(Symbol)
         key = key.to_s
       end
@@ -18,7 +18,7 @@ module Onfleet
         .downcase
     end
 
-    def self.to_camel_case_lower str
+    def self.to_camel_case_lower(str)
       SPECIAL_PARSE[str] || str.camelize(:lower)
     end
 

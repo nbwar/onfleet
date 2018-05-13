@@ -1,13 +1,10 @@
 module Onfleet
   module TestData
-    def recipient
-    end
+    def recipient; end
 
-    def destination
-    end
+    def destination; end
 
-    def task
-    end
+    def task; end
   end
 end
 

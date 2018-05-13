@@ -4,7 +4,7 @@ module Onfleet
       module ClassMethods
         def update(id, params)
           params[:id] = id
-          self.new(params).save
+          new(params).save
         end
       end
 

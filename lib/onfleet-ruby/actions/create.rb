@@ -3,7 +3,7 @@ module Onfleet
     module Create
       module ClassMethods
         def create(params = {})
-          self.new(params).save
+          new(params).save
         end
       end
 

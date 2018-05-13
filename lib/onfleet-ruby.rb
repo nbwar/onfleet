@@ -100,3 +100,4 @@ module Onfleet
     raise ConnectionError.new(message)
   end
 end
+

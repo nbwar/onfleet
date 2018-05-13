@@ -3,7 +3,7 @@ module Onfleet
     module Update
       module ClassMethods
         def update id, params
-          params.merge!(id: id)
+          params[:id] = id
           self.new(params).save
         end
       end

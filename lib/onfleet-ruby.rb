@@ -35,7 +35,6 @@ require 'onfleet-ruby/vehicle'
 require 'onfleet-ruby/worker'
 require 'onfleet-ruby/webhook'
 
-
 module Onfleet
   @base_url = "https://onfleet.com/api/v2"
 
@@ -64,6 +63,7 @@ module Onfleet
   end
 
   private
+
     def self.request_headers
       {
         Authorization: "Basic #{self.encoded_api_key}",

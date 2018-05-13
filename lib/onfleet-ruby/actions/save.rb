@@ -6,7 +6,7 @@ module Onfleet
           request_type = :put
           api_url = "#{self.api_url}/#{self.id}"
         else
-          request_type  = :post
+          request_type = :post
           api_url = self.api_url
         end
         response = Onfleet.request(api_url, request_type, self.attributes)

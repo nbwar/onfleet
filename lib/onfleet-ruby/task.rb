@@ -19,6 +19,5 @@ module Onfleet
       Onfleet.request(url, :post, params)
       true
     end
-
   end
 end

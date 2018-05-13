@@ -87,7 +87,6 @@ module Onfleet
           else
             add_attrs({"#{key_underscore}" => value})
           end
-
         end
       end
 
@@ -97,6 +96,5 @@ module Onfleet
           instance_variable_set "@#{var}", value
         end
       end
-
   end
 end

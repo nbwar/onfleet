@@ -64,39 +64,39 @@ module Onfleet
 
   private
 
-    def self.request_headers
-      {
-        Authorization: "Basic #{self.encoded_api_key}",
-        content_type: :json,
-        accept: :json
-      }
+  def self.request_headers
+    {
+      Authorization: "Basic #{self.encoded_api_key}",
+      content_type: :json,
+      accept: :json
+    }
+  end
+
+  def self.encoded_api_key
+    @encoded_api_key ||= Base64.urlsafe_encode64(@api_key)
+  end
+
+  def self.handle_api_error code, body
+    case code
+    when 400, 404
+      raise InvalidRequestError.new(body["message"])
+    when 401
+      raise AuthenticationError.new(body["message"])
+    else
+      raise OnfleetError.new(body["message"])
+    end
+  end
+
+  def self.handle_restclient_error e
+    case e
+    when RestClient::RequestTimeout
+      message = "Could not connect to Onfleet. Check your internet connection and try again."
+    when RestClient::ServerBrokeConnection
+      message = "The connetion with onfleet terminated before the request completed. Please try again."
+    else
+      message = "There was a problem connection with Onfleet. Please try again. If the problem persists contact contact@onfleet.com"
     end
 
-    def self.encoded_api_key
-      @encoded_api_key ||= Base64.urlsafe_encode64(@api_key)
-    end
-
-    def self.handle_api_error code, body
-      case code
-      when 400, 404
-        raise InvalidRequestError.new(body["message"])
-      when 401
-        raise AuthenticationError.new(body["message"])
-      else
-        raise OnfleetError.new(body["message"])
-      end
-    end
-
-    def self.handle_restclient_error e
-      case e
-      when RestClient::RequestTimeout
-        message = "Could not connect to Onfleet. Check your internet connection and try again."
-      when RestClient::ServerBrokeConnection
-        message = "The connetion with onfleet terminated before the request completed. Please try again."
-      else
-        message = "There was a problem connection with Onfleet. Please try again. If the problem persists contact contact@onfleet.com"
-      end
-
-      raise ConnectionError.new(message)
-    end
+    raise ConnectionError.new(message)
+  end
 end

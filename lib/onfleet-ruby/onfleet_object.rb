@@ -55,46 +55,46 @@ module Onfleet
 
     private
 
-      def parse_onfleet_obj obj
-        if obj.is_a?(OnfleetObject)
-          if obj.respond_to?('id') && obj.id && (obj.is_a?(Destination) || obj.is_a?(Recipient) || obj.is_a?(Task))
-             obj.id
-          else
-            obj.attributes
-          end
+    def parse_onfleet_obj obj
+      if obj.is_a?(OnfleetObject)
+        if obj.respond_to?('id') && obj.id && (obj.is_a?(Destination) || obj.is_a?(Recipient) || obj.is_a?(Task))
+          obj.id
+        else
+          obj.attributes
         end
       end
+    end
 
-      def set_attributes params
-        params.each do |key, value|
-          key_underscore = Util.to_underscore(key)
+    def set_attributes params
+      params.each do |key, value|
+        key_underscore = Util.to_underscore(key)
 
-          if klass = Util.object_classes[key.to_s]
-            case value
-            when Array
-              objs = []
-              value.each do |v|
-                objs << klass.new(v)
-              end
-              value = objs
-            when Hash
-              value = klass.new(value)
+        if klass = Util.object_classes[key.to_s]
+          case value
+          when Array
+            objs = []
+            value.each do |v|
+              objs << klass.new(v)
             end
-          end
-
-          if respond_to?("#{key_underscore}=")
-            send(:"#{key_underscore}=", value)
-          else
-            add_attrs({"#{key_underscore}" => value})
+            value = objs
+          when Hash
+            value = klass.new(value)
           end
         end
-      end
 
-      def add_attrs attrs
-        attrs.each do |var, value|
-          self.class.class_eval { attr_accessor var }
-          instance_variable_set "@#{var}", value
+        if respond_to?("#{key_underscore}=")
+          send(:"#{key_underscore}=", value)
+        else
+          add_attrs({"#{key_underscore}" => value})
         end
       end
+    end
+
+    def add_attrs attrs
+      attrs.each do |var, value|
+        self.class.class_eval { attr_accessor var }
+        instance_variable_set "@#{var}", value
+      end
+    end
   end
 end

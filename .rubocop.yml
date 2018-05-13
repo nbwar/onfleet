@@ -1,0 +1,4 @@
+# Keep diffs clean
+Layout/TrailingBlankLines:
+  EnforcedStyle: final_blank_line
+

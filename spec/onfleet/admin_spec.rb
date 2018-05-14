@@ -26,6 +26,12 @@ RSpec.describe Onfleet::Admin do
     it_should_behave_like Onfleet::Actions::Create, path: 'admins'
   end
 
+  describe ".update" do
+    subject { -> { described_class.update(id, params) } }
+    let(:id) { 'an-admin' }
+    it_should_behave_like Onfleet::Actions::Update, path: 'admins/an-admin'
+  end
+
   describe ".delete" do
     subject { -> { described_class.delete(id) } }
     let(:id) { 'an-admin' }

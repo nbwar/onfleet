@@ -66,6 +66,22 @@ RSpec.shared_examples_for Onfleet::Actions::Create do |path:|
   end
 end
 
+RSpec.shared_examples_for Onfleet::Actions::Update do |path:|
+  set_up_request_stub(:put, path)
+  let(:response_body) { { id: 'an-object' } }
+
+  it_should_behave_like "an action that makes a request to Onfleet", method: :put
+
+  # The current implementation -- using instance variables -- makes it impossible
+  # to have this example pass deterministically.
+  xit "should send the object params, including ID, in JSON" do
+    subject.call
+    expect(
+      a_request(:put, url).with(body: params.merge(id: id).to_json)
+    ).to have_been_made.once
+  end
+end
+
 RSpec.shared_examples_for Onfleet::Actions::Delete do |path:|
   set_up_request_stub(:delete, path)
   let(:response_body) { '' }

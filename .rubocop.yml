@@ -1,5 +1,8 @@
 inherit_from: .rubocop_todo.yml
 
+AllCops:
+  TargetRubyVersion: 2.2
+
 # Keep diffs clean
 Layout/TrailingBlankLines:
   EnforcedStyle: final_blank_line

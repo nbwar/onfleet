@@ -1,8 +1,4 @@
-RSpec.shared_examples_for "an action that makes a request to Onfleet" do |path:, method:|
-  let(:url) { URI.join(Onfleet.base_url, path).to_s }
-  let(:response) { { status: 200, body: response_body.to_json } }
-  before { stub_request(method, url).to_return(response) }
-
+RSpec.shared_examples_for "an action that makes a request to Onfleet" do |method:|
   it "should include the base64-encoded API key in the auth header" do
     encoded_api_key = Base64.urlsafe_encode64(Onfleet.api_key)
 
@@ -45,12 +41,34 @@ RSpec.shared_examples_for "an action that makes a request to Onfleet" do |path:,
 end
 
 RSpec.shared_examples_for Onfleet::Actions::Get do |path:|
+  set_up_request_stub(:get, path)
   let(:response_body) { { id: 'an-object' } }
-  it_should_behave_like "an action that makes a request to Onfleet", path: path, method: :get
+  it_should_behave_like "an action that makes a request to Onfleet", method: :get
 end
 
 RSpec.shared_examples_for Onfleet::Actions::List do |path:|
+  set_up_request_stub(:get, path)
   let(:response_body) { [{ id: 'an-object' }, { id: 'another-object' }] }
-  it_should_behave_like "an action that makes a request to Onfleet", path: path, method: :get
+  it_should_behave_like "an action that makes a request to Onfleet", method: :get
+end
+
+RSpec.shared_examples_for Onfleet::Actions::Create do |path:|
+  set_up_request_stub(:post, path)
+  let(:response_body) { { id: 'an-object' } }
+
+  it_should_behave_like "an action that makes a request to Onfleet", method: :post
+
+  it "should send the object params, not including ID, in JSON" do
+    subject.call
+    expect(
+      a_request(:post, url).with(body: params.symbolize_keys.except(:id).to_json)
+    ).to have_been_made.once
+  end
+end
+
+def set_up_request_stub(method, path)
+  let(:url) { URI.join(Onfleet.base_url, path).to_s }
+  let(:response) { { status: 200, body: response_body.to_json } }
+  before { stub_request(method, url).to_return(response) }
 end
 

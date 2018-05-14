@@ -1,6 +1,6 @@
 RSpec.describe Onfleet::Admin do
   let(:admin) { described_class.new(params) }
-  let(:params) { { name: 'an admin' } }
+  let(:params) { { id: 'an-admin', name: 'An Admin' } }
 
   describe ".list" do
     subject { -> { described_class.list(query_params) } }
@@ -19,6 +19,11 @@ RSpec.describe Onfleet::Admin do
       let(:query_params) { { food: 'green eggs & ham' } }
       it_should_behave_like Onfleet::Actions::List, path: 'admins?food=green+eggs+%26+ham'
     end
+  end
+
+  describe ".create" do
+    subject { -> { described_class.create(params) } }
+    it_should_behave_like Onfleet::Actions::Create, path: 'admins'
   end
 
   %i[id name email type metadata].each do |attr|

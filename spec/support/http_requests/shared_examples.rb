@@ -93,6 +93,12 @@ RSpec.shared_examples_for Onfleet::Actions::Delete do |path:|
   it_should_behave_like "an action that makes a request to Onfleet", method: :delete
 end
 
+RSpec.shared_examples_for Onfleet::Actions::Find do |path:|
+  set_up_request_stub(:get, path)
+  let(:response_body) { { id: 'an-object' } }
+  it_should_behave_like "an action that makes a request to Onfleet", method: :get
+end
+
 RSpec.shared_examples_for Onfleet::Actions::QueryMetadata do |path:|
   set_up_request_stub(:post, path + '/metadata')
   let(:response_body) { [{ id: 'an-object' }, { id: 'another-object' }] }

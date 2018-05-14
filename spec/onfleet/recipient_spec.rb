@@ -45,6 +45,13 @@ RSpec.describe Onfleet::Recipient do
     end
   end
 
+  describe ".find" do
+    subject { -> { described_class.find(attribute, value) } }
+    let(:attribute) { 'name' }
+    let(:value) { 'Ma Bell' }
+    it_should_behave_like Onfleet::Actions::Find, path: "recipients/name/Ma+Bell"
+  end
+
   describe ".query_by_metadata" do
     subject { -> { described_class.query_by_metadata(metadata) } }
     let(:metadata) { [{ name: 'color', type: 'string', value: 'ochre' }] }

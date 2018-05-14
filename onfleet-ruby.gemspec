@@ -15,6 +15,7 @@ Gem::Specification.new do |s|
   s.add_development_dependency('rake')
   s.add_development_dependency('rspec', '~> 3.3')
   s.add_development_dependency('rubocop', '~> 0.55')
+  s.add_development_dependency('webmock', '~> 3.4')
 
   s.files         = `git ls-files`.split("\n")
   s.test_files    = `git ls-files -- {test,spec,features}/*`.split("\n")

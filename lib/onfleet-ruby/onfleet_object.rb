@@ -4,10 +4,10 @@ module Onfleet
     def initialize(params)
       if params.is_a?(Hash)
         @params = params
-        set_attributes(@params)
+        assign_attributes(@params)
       elsif params.is_a?(String)
         @params = { id: params }
-        set_attributes(@params)
+        assign_attributes(@params)
       else
         @params = {}
       end
@@ -15,7 +15,7 @@ module Onfleet
 
     def parse_response(response)
       @params = response
-      set_attributes(response)
+      assign_attributes(response)
       self
     end
 
@@ -63,7 +63,7 @@ module Onfleet
       end
     end
 
-    def set_attributes(params)
+    def assign_attributes(params)
       params.each do |key, value|
         key_underscore = Util.to_underscore(key)
 

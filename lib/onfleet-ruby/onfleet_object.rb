@@ -23,23 +23,22 @@ module Onfleet
       attrs = {}
       instance_variables.select { |var| var != '@params' }.each do |var|
         str = var.to_s.gsub(/^@/, '')
-        if respond_to?("#{str}=")
-          instance_var = instance_variable_get(var)
-          if Util.object_classes[str]
-            if instance_var.is_a?(OnfleetObject)
-              attrs[Util.to_camel_case_lower(str).to_sym] = parse_onfleet_obj(instance_var)
-            elsif instance_var.is_a?(Array)
-              objs = []
-              instance_var.each do |object|
-                objs << parse_onfleet_obj(object)
-              end
-              attrs[Util.to_camel_case_lower(str).to_sym] = objs
-            else
-              attrs[Util.to_camel_case_lower(str).to_sym] = instance_var
+        next unless respond_to?("#{str}=")
+        instance_var = instance_variable_get(var)
+        if Util.object_classes[str]
+          if instance_var.is_a?(OnfleetObject)
+            attrs[Util.to_camel_case_lower(str).to_sym] = parse_onfleet_obj(instance_var)
+          elsif instance_var.is_a?(Array)
+            objs = []
+            instance_var.each do |object|
+              objs << parse_onfleet_obj(object)
             end
+            attrs[Util.to_camel_case_lower(str).to_sym] = objs
           else
             attrs[Util.to_camel_case_lower(str).to_sym] = instance_var
           end
+        else
+          attrs[Util.to_camel_case_lower(str).to_sym] = instance_var
         end
       end
       attrs

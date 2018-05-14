@@ -13,8 +13,8 @@ module Onfleet
           end
 
           response = Onfleet.request(api_url, :get)
-          response.compact.map do |listObj|
-            Util.constantize(name).new(listObj)
+          response.compact.map do |list_obj|
+            Util.constantize(name).new(list_obj)
           end
         end
       end

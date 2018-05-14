@@ -6,7 +6,7 @@ module Onfleet
     include Onfleet::Actions::QueryMetadata
 
     def self.api_url
-      '/destinations'
+      'destinations'
     end
   end
 end

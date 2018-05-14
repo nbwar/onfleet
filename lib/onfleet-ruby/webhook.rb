@@ -6,7 +6,7 @@ module Onfleet
     include Onfleet::Actions::Delete
 
     def self.api_url
-      '/webhooks'
+      'webhooks'
     end
   end
 end

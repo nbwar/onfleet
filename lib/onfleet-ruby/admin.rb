@@ -8,7 +8,7 @@ module Onfleet
     include Onfleet::Actions::QueryMetadata
 
     def self.api_url
-      '/admins'
+      'admins'
     end
   end
 end

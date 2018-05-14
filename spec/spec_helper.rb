@@ -1,3 +1,5 @@
+require File.expand_path(File.join('..', 'lib', 'onfleet-ruby'), __dir__)
+
 # See http://rubydoc.info/gems/rspec-core/RSpec/Core/Configuration
 RSpec.configure do |config|
   config.expect_with :rspec do |expectations|

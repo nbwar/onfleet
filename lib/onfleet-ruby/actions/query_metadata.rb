@@ -3,9 +3,8 @@ module Onfleet
     module QueryMetadata
       module ClassMethods
         def query_by_metadata(metadata)
-          api_url = "#{self.api_url}/metadata"
-          response = Onfleet.request(api_url, :post, metadata)
-          response.map { |item| Util.constantize(name).new(item) } if response.is_a? Array
+          response = Onfleet.request("#{api_url}/metadata", :post, metadata)
+          [*response].compact.map { |item| new(item) }
         end
       end
 

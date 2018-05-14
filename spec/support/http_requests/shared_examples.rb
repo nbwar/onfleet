@@ -89,6 +89,19 @@ RSpec.shared_examples_for Onfleet::Actions::Delete do |path:|
   it_should_behave_like "an action that makes a request to Onfleet", method: :delete
 end
 
+RSpec.shared_examples_for Onfleet::Actions::QueryMetadata do |path:|
+  set_up_request_stub(:post, path + '/metadata')
+  let(:response_body) { [{ id: 'an-object' }, { id: 'another-object' }] }
+  it_should_behave_like "an action that makes a request to Onfleet", method: :post
+
+  it "should send metadata in JSON" do
+    subject.call
+    expect(
+      a_request(:post, url).with(body: metadata.to_json)
+    ).to have_been_made.once
+  end
+end
+
 def set_up_request_stub(method, path)
   let(:url) { URI.join(Onfleet.base_url, path).to_s }
   let(:response) { { status: 200, body: response_body.to_json } }

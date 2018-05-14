@@ -38,6 +38,12 @@ RSpec.describe Onfleet::Admin do
     it_should_behave_like Onfleet::Actions::Delete, path: 'admins/an-admin'
   end
 
+  describe ".query_by_metadata" do
+    subject { -> { described_class.query_by_metadata(metadata) } }
+    let(:metadata) { [{ name: 'color', type: 'string', value: 'ochre' }] }
+    it_should_behave_like Onfleet::Actions::QueryMetadata, path: 'admins'
+  end
+
   %i[id name email type metadata].each do |attr|
     describe "##{attr}" do
       subject { admin.public_send(attr) }

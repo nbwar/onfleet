@@ -26,6 +26,12 @@ RSpec.describe Onfleet::Admin do
     it_should_behave_like Onfleet::Actions::Create, path: 'admins'
   end
 
+  describe ".delete" do
+    subject { -> { described_class.delete(id) } }
+    let(:id) { 'an-admin' }
+    it_should_behave_like Onfleet::Actions::Delete, path: 'admins/an-admin'
+  end
+
   %i[id name email type metadata].each do |attr|
     describe "##{attr}" do
       subject { admin.public_send(attr) }

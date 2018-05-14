@@ -66,6 +66,13 @@ RSpec.shared_examples_for Onfleet::Actions::Create do |path:|
   end
 end
 
+RSpec.shared_examples_for Onfleet::Actions::Delete do |path:|
+  set_up_request_stub(:delete, path)
+  let(:response_body) { '' }
+
+  it_should_behave_like "an action that makes a request to Onfleet", method: :delete
+end
+
 def set_up_request_stub(method, path)
   let(:url) { URI.join(Onfleet.base_url, path).to_s }
   let(:response) { { status: 200, body: response_body.to_json } }

@@ -1,6 +1,6 @@
-RSpec.shared_examples_for "an action that makes a request to Onfleet" do |path:, method: :get|
+RSpec.shared_examples_for "an action that makes a request to Onfleet" do |path:, method:|
   let(:url) { URI.join(Onfleet.base_url, path).to_s }
-  let(:response) { { status: 200, body: { id: 'an-object' }.to_json } }
+  let(:response) { { status: 200, body: response_body.to_json } }
   before { stub_request(method, url).to_return(response) }
 
   it "should include the base64-encoded API key in the auth header" do
@@ -42,5 +42,10 @@ RSpec.shared_examples_for "an action that makes a request to Onfleet" do |path:,
     let(:response) { { status: 500, body: { message: 'all bad' }.to_json } }
     it { should raise_error(Onfleet::OnfleetError) }
   end
+end
+
+RSpec.shared_examples_for Onfleet::Actions::Get do |path:|
+  let(:response_body) { { id: 'an-object' } }
+  it_should_behave_like "an action that makes a request to Onfleet", path: path, method: :get
 end
 

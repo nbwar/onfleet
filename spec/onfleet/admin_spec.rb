@@ -44,6 +44,20 @@ RSpec.describe Onfleet::Admin do
     it_should_behave_like Onfleet::Actions::QueryMetadata, path: 'admins'
   end
 
+  describe "#save" do
+    subject { -> { admin.save } }
+
+    context "with an ID attribute" do
+      before { expect(params[:id]).to be }
+      it_should_behave_like Onfleet::Actions::Update, path: 'admins/an-admin'
+    end
+
+    context "without an ID attribute" do
+      let(:params) { { name: 'An Admin' } }
+      it_should_behave_like Onfleet::Actions::Create, path: 'admins'
+    end
+  end
+
   %i[id name email type metadata].each do |attr|
     describe "##{attr}" do
       subject { admin.public_send(attr) }

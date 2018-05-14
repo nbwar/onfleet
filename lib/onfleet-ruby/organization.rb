@@ -2,15 +2,11 @@ module Onfleet
   class Organization < OnfleetObject
     class << self
       def get
-        url = 'organization'
-        response = Onfleet.request(url, :get)
-        Util.constantize(name).new(response)
+        new(Onfleet.request('organization', :get))
       end
 
       def get_delegatee_details(id)
-        url = "organizations/#{id}"
-        response = Onfleet.request(url, :get)
-        Util.constantize(name).new(response)
+        new(Onfleet.request("organizations/#{id}", :get))
       end
     end
   end

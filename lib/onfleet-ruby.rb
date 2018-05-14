@@ -84,14 +84,15 @@ module Onfleet
     end
 
     def handle_restclient_error(e)
-      case e
-      when RestClient::RequestTimeout
-        message = 'Could not connect to Onfleet. Check your internet connection and try again.'
-      when RestClient::ServerBrokeConnection
-        message = 'The connetion with onfleet terminated before the request completed. Please try again.'
-      else
-        message = 'There was a problem connection with Onfleet. Please try again. If the problem persists contact contact@onfleet.com'
-      end
+      message =
+        case e
+        when RestClient::RequestTimeout
+          'Could not connect to Onfleet. Check your internet connection and try again.'
+        when RestClient::ServerBrokeConnection
+          'The connetion with onfleet terminated before the request completed. Please try again.'
+        else
+          'There was a problem connection with Onfleet. Please try again. If the problem persists contact contact@onfleet.com'
+        end
 
       raise ConnectionError, message
     end

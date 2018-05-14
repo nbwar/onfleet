@@ -5,7 +5,7 @@ module Onfleet
         def list(query_params = {})
           api_url = self.api_url
 
-          if !query_params.empty?
+          if query_params.any?
             api_url += '?'
             query_params.each do |key, value|
               api_url += "#{key}=#{value}&"

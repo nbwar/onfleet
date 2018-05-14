@@ -42,7 +42,7 @@ module Onfleet
     attr_accessor :api_key, :base_url
 
     def request(api_url, method, params = {})
-      raise AuthenticationError.new('Set your API Key using Onfleet.api_key = <API_KEY>') unless @api_key
+      raise(AuthenticationError, 'Set your API Key using Onfleet.api_key = <API_KEY>') unless api_key
 
       begin
         response = RestClient::Request.execute(method: method, url: base_url + api_url, payload: params.to_json, headers: request_headers)
@@ -78,11 +78,11 @@ module Onfleet
     def handle_api_error(code, body)
       case code
       when 400, 404
-        raise InvalidRequestError.new(body['message'])
+        raise InvalidRequestError, body['message']
       when 401
-        raise AuthenticationError.new(body['message'])
+        raise AuthenticationError, body['message']
       else
-        raise OnfleetError.new(body['message'])
+        raise OnfleetError, body['message']
       end
     end
 
@@ -96,7 +96,7 @@ module Onfleet
         message = 'There was a problem connection with Onfleet. Please try again. If the problem persists contact contact@onfleet.com'
       end
 
-      raise ConnectionError.new(message)
+      raise ConnectionError, message
     end
   end
 end

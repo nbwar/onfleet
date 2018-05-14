@@ -21,7 +21,7 @@ module Onfleet
 
     def attributes
       attrs = {}
-      instance_variables.select { |var| var != '@params' }.each do |var|
+      instance_variables.reject { |var| var == '@params' }.each do |var|
         str = var.to_s.gsub(/^@/, '')
         next unless respond_to?("#{str}=")
         instance_var = instance_variable_get(var)

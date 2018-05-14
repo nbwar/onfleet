@@ -83,9 +83,9 @@ module Onfleet
       end
     end
 
-    def handle_restclient_error(e)
+    def handle_restclient_error(exception)
       message =
-        case e
+        case exception
         when RestClient::RequestTimeout
           'Could not connect to Onfleet. Check your internet connection and try again.'
         when RestClient::ServerBrokeConnection

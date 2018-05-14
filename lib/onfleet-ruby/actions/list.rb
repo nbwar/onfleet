@@ -2,20 +2,21 @@ module Onfleet
   module Actions
     module List
       module ClassMethods
-        def list(query_params = {})
-          api_url = self.api_url
+        def list(filters = {})
+          response = Onfleet.request(list_url_for(filters), :get)
+          response.compact.map { |item| new(item) }
+        end
 
-          if query_params.any?
-            api_url += '?'
-            query_params.each do |key, value|
-              api_url += "#{key}=#{value}&"
-            end
-          end
+        private
 
-          response = Onfleet.request(api_url, :get)
-          response.compact.map do |list_obj|
-            Util.constantize(name).new(list_obj)
-          end
+        def list_url_for(filters)
+          [api_url, query_params(filters)].compact.join('?')
+        end
+
+        def query_params(filters)
+          filters && filters
+            .collect { |key, value| "#{key}=#{URI.encode_www_form_component(value)}" }
+            .join('&')
         end
       end
 

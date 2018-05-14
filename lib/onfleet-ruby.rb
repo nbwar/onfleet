@@ -46,10 +46,7 @@ module Onfleet
 
       begin
         response = RestClient::Request.execute(method: method, url: base_url + api_url, payload: params.to_json, headers: request_headers)
-
-        if response != ''
-          JSON.parse(response)
-        end
+        JSON.parse(response) unless response.empty?
       rescue RestClient::ExceptionWithResponse => e
         if (response_code = e.http_code) && (response_body = e.http_body)
           handle_api_error(response_code, JSON.parse(response_body))

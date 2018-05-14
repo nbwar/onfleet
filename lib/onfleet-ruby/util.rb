@@ -7,10 +7,8 @@ module Onfleet
     end
 
     def self.to_underscore(key)
-      if key.kind_of?(Symbol)
-        key = key.to_s
-      end
       key
+        .to_s
         .gsub(/::/, '/')
         .gsub(/([A-Z]+)([A-Z][a-z])/, '\1_\2')
         .gsub(/([a-z\d])([A-Z])/, '\1_\2')

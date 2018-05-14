@@ -13,9 +13,13 @@ RSpec.describe Onfleet::Organization do
     it_should_behave_like "an action that makes a request to Onfleet", path: 'organizations/my-org'
   end
 
-  describe "#id" do
-    subject { organization.id }
-    it { should == params[:id] }
+  %i[id name email country timezone time_created time_last_modified].each do |attr|
+    describe "##{attr}" do
+      subject { organization.public_send(attr) }
+      let(:params) { { attr => value } }
+      let(:value) { 'pizza' }
+      it { should == value }
+    end
   end
 end
 

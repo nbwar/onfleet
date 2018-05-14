@@ -2,3 +2,8 @@
 Layout/TrailingBlankLines:
   EnforcedStyle: final_blank_line
 
+# Allow the gem to have a non-snakecase name
+Naming/FileName:
+  Exclude:
+    - 'lib/onfleet-ruby.rb'
+

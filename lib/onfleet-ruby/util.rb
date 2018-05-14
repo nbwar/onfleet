@@ -1,3 +1,5 @@
+require 'active_support/core_ext/string/inflections'
+
 module Onfleet
   class Util
     SPECIAL_PARSE = { 'skip_sms_notifications' => 'skipSMSNotifications' }.freeze

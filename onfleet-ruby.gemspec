@@ -9,6 +9,7 @@ Gem::Specification.new do |s|
   s.homepage    = 'http://rubygems.org/gems/onfleet-ruby'
   s.license     = 'MIT'
 
+  s.add_dependency('activesupport', '>= 4.2')
   s.add_dependency('rest-client', '~> 1.4')
 
   s.add_development_dependency('rake')

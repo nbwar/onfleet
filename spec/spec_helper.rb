@@ -1,6 +1,8 @@
 require 'webmock/rspec'
 require File.expand_path(File.join('..', 'lib', 'onfleet-ruby'), __dir__)
 
+Dir.glob(File.expand_path(File.join('support', '**', '*.rb'), __dir__)).each { |file| require file }
+
 # See http://rubydoc.info/gems/rspec-core/RSpec/Core/Configuration
 RSpec.configure do |config|
   config.expect_with :rspec do |expectations|

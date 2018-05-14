@@ -2,10 +2,10 @@ module Onfleet
   class OnfleetObject
     attr_reader :params
     def initialize(params)
-      if params.kind_of?(Hash)
+      if params.is_a?(Hash)
         @params = params
         set_attributes(@params)
-      elsif params.kind_of?(String)
+      elsif params.is_a?(String)
         @params = { id: params }
         set_attributes(@params)
       else

@@ -1,3 +1,5 @@
+require 'active_support/core_ext/string/inflections'
+
 module Onfleet
   class OnfleetObject
     attr_reader :params
@@ -29,18 +31,18 @@ module Onfleet
         instance_var = instance_variable_get(var)
         if Util.object_classes[str]
           if instance_var.is_a?(OnfleetObject)
-            attrs[Util.to_camel_case_lower(str).to_sym] = parse_onfleet_obj(instance_var)
+            attrs[camelize(str).to_sym] = parse_onfleet_obj(instance_var)
           elsif instance_var.is_a?(Array)
             objs = []
             instance_var.each do |object|
               objs << parse_onfleet_obj(object)
             end
-            attrs[Util.to_camel_case_lower(str).to_sym] = objs
+            attrs[camelize(str).to_sym] = objs
           else
-            attrs[Util.to_camel_case_lower(str).to_sym] = instance_var
+            attrs[camelize(str).to_sym] = instance_var
           end
         else
-          attrs[Util.to_camel_case_lower(str).to_sym] = instance_var
+          attrs[camelize(str).to_sym] = instance_var
         end
       end
       attrs
@@ -56,6 +58,11 @@ module Onfleet
 
     private
 
+    def camelize(string)
+      camelized = string.camelize(:lower)
+      camelized.gsub('Sms', 'SMS')
+    end
+
     def parse_onfleet_obj(obj)
       return unless obj.is_a?(OnfleetObject)
       if obj.respond_to?('id') && obj.id && (obj.is_a?(Destination) || obj.is_a?(Recipient) || obj.is_a?(Task))
@@ -67,7 +74,7 @@ module Onfleet
 
     def assign_attributes(params)
       params.each do |key, value|
-        key_underscore = Util.to_underscore(key)
+        key_underscore = key.to_s.underscore
 
         if (klass = Util.object_classes[key.to_s])
           case value

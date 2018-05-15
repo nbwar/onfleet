@@ -4,10 +4,6 @@ module Onfleet
   class Util
     SPECIAL_PARSE = { 'skip_sms_notifications' => 'skipSMSNotifications' }.freeze
 
-    def self.constantize(class_name)
-      Object.const_get(class_name)
-    end
-
     def self.to_underscore(key)
       key
         .to_s

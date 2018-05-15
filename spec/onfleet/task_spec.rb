@@ -2,6 +2,8 @@ RSpec.describe Onfleet::Task do
   let(:task) { described_class.new(params) }
   let(:params) { { id: 'a-task', short_id: 'at', recipients: ['jeff'] } }
 
+  it_should_behave_like Onfleet::OnfleetObject
+
   describe ".list" do
     subject { -> { described_class.list(query_params) } }
 

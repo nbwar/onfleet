@@ -2,6 +2,8 @@ RSpec.describe Onfleet::Webhook do
   let(:webhook) { described_class.new(params) }
   let(:params) { { id: 'a-webhook', url: 'https://example.com', is_enabled: true } }
 
+  it_should_behave_like Onfleet::OnfleetObject
+
   describe ".list" do
     subject { -> { described_class.list(query_params) } }
 

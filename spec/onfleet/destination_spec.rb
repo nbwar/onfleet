@@ -3,6 +3,8 @@ RSpec.describe Onfleet::Destination do
   let(:params) { { id: 'a-destination', address: address_params } }
   let(:address_params) { { street: '123 Main', city: 'Foo', state: 'TX' } }
 
+  it_should_behave_like Onfleet::OnfleetObject
+
   describe ".create" do
     subject { -> { described_class.create(params) } }
     it_should_behave_like Onfleet::Actions::Create, path: 'destinations'

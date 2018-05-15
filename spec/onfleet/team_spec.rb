@@ -2,6 +2,8 @@ RSpec.describe Onfleet::Team do
   let(:team) { described_class.new(params) }
   let(:params) { { id: 'a-team', name: 'Detroit Redwings' } }
 
+  it_should_behave_like Onfleet::OnfleetObject
+
   describe ".list" do
     subject { -> { described_class.list(query_params) } }
 

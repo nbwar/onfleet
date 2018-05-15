@@ -29,7 +29,7 @@ module Onfleet
         str = var.to_s.gsub(/^@/, '')
         next unless respond_to?("#{str}=")
         instance_var = instance_variable_get(var)
-        if Util.object_classes[str]
+        if object_classes[str]
           if instance_var.is_a?(OnfleetObject)
             attrs[camelize(str).to_sym] = parse_onfleet_obj(instance_var)
           elsif instance_var.is_a?(Array)
@@ -63,6 +63,17 @@ module Onfleet
       camelized.gsub('Sms', 'SMS')
     end
 
+    def object_classes
+      @object_classes ||= {
+        'address'     => Address,
+        'recipients'  => Recipient,
+        'recipient'   => Recipient,
+        'tasks'       => Task,
+        'destination' => Destination,
+        'vehicle'     => Vehicle
+      }
+    end
+
     def parse_onfleet_obj(obj)
       return unless obj.is_a?(OnfleetObject)
       if obj.respond_to?('id') && obj.id && (obj.is_a?(Destination) || obj.is_a?(Recipient) || obj.is_a?(Task))
@@ -76,7 +87,7 @@ module Onfleet
       params.each do |key, value|
         key_underscore = key.to_s.underscore
 
-        if (klass = Util.object_classes[key.to_s])
+        if (klass = object_classes[key.to_s])
           case value
           when Array
             objs = []

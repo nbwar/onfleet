@@ -59,9 +59,11 @@ RSpec.shared_examples_for Onfleet::Actions::Create do |path:|
   it_should_behave_like "an action that makes a request to Onfleet", method: :post
 
   it "should send the object params, not including ID, in JSON" do
+    expected_params = camelize_keys(params.stringify_keys.except('id'))
+
     subject.call
     expect(
-      a_request(:post, url).with(body: params.symbolize_keys.except(:id).to_json)
+      a_request(:post, url).with(body: expected_params.to_json)
     ).to have_been_made.once
   end
 end
@@ -75,9 +77,11 @@ RSpec.shared_examples_for Onfleet::Actions::Update do |path:|
   # The current implementation -- using instance variables -- makes it impossible
   # to have this example pass deterministically.
   xit "should send the object params, including ID, in JSON" do
+    expected_params = camelize_keys(params.merge(id: id))
+
     subject.call
     expect(
-      a_request(:put, url).with(body: params.merge(id: id).to_json)
+      a_request(:put, url).with(body: expected_params.to_json)
     ).to have_been_made.once
   end
 end
@@ -106,5 +110,11 @@ def set_up_request_stub(method, path)
   let(:url) { URI.join(Onfleet.base_url, path).to_s }
   let(:response) { { status: 200, body: response_body.to_json } }
   before { stub_request(method, url).to_return(response) }
+end
+
+def camelize_keys(hash)
+  hash.inject({}) do |accumulator, (key, value)|
+    accumulator.merge(key.camelize(:lower) => value)
+  end
 end
 

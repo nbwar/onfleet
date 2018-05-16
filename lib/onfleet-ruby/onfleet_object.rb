@@ -6,7 +6,6 @@ module Onfleet
     extend Onfleet::Dsl
 
     attr_reader :params
-    attr_accessor :id
 
     def initialize(params = {})
       if params.is_a?(Hash)
@@ -16,32 +15,41 @@ module Onfleet
       end
     end
 
+    def id
+      attributes['id']
+    end
+
+    def id=(value)
+      attributes['id'] = value
+    end
+
     def as_json
       attrs = {}
-      instance_variables.reject { |var| var == '@params' }.each do |var|
-        str = var.to_s.gsub(/^@/, '')
-        next unless respond_to?("#{str}=")
-        instance_var = instance_variable_get(var)
-        if object_classes[str]
-          if instance_var.is_a?(OnfleetObject)
-            attrs[camelize(str).to_sym] = parse_onfleet_obj(instance_var)
-          elsif instance_var.is_a?(Array)
+      attributes.each do |name, value|
+        if object_classes[name]
+          if value.is_a?(OnfleetObject)
+            attrs[camelize(name).to_sym] = parse_onfleet_obj(value)
+          elsif value.is_a?(Array)
             objs = []
-            instance_var.each do |object|
+            value.each do |object|
               objs << parse_onfleet_obj(object)
             end
-            attrs[camelize(str).to_sym] = objs
+            attrs[camelize(name).to_sym] = objs
           else
-            attrs[camelize(str).to_sym] = instance_var
+            attrs[camelize(name).to_sym] = value
           end
         else
-          attrs[camelize(str).to_sym] = instance_var
+          attrs[camelize(name).to_sym] = value
         end
       end
       attrs
     end
 
     private
+
+    def attributes
+      @attributes ||= {}
+    end
 
     def api_url
       self.class.api_url
@@ -51,7 +59,7 @@ module Onfleet
       @params = params
 
       params.each do |key, value|
-        key_underscore = key.to_s.underscore
+        key = key.to_s.underscore
 
         if (klass = object_classes[key.to_s])
           case value
@@ -66,11 +74,8 @@ module Onfleet
           end
         end
 
-        if respond_to?("#{key_underscore}=")
-          send(:"#{key_underscore}=", value)
-        else
-          add_attrs(key_underscore.to_s => value)
-        end
+        define_attribute_accessors(key) unless respond_to?(key)
+        public_send(:"#{key}=", value)
       end
     end
 
@@ -99,11 +104,11 @@ module Onfleet
       end
     end
 
-    def add_attrs(attrs)
-      attrs.each do |var, value|
-        self.class.class_eval { attr_accessor var }
-        instance_variable_set "@#{var}", value
-      end
+    def define_attribute_accessors(attr)
+      attr = attr.to_s
+
+      singleton_class.define_method(:"#{attr}=") { |value| attributes[attr] = value }
+      singleton_class.define_method(attr) { attributes[attr] }
     end
   end
 end

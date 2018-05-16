@@ -1,26 +1,19 @@
 require 'active_support/core_ext/string/inflections'
+require 'onfleet-ruby/dsl'
 
 module Onfleet
   class OnfleetObject
+    extend Onfleet::Dsl
+
     attr_reader :params
     attr_accessor :id
 
-    def initialize(params)
+    def initialize(params = {})
       if params.is_a?(Hash)
-        @params = params
-        assign_attributes(@params)
+        parse_params(params)
       elsif params.is_a?(String)
-        @params = { id: params }
-        assign_attributes(@params)
-      else
-        @params = {}
+        parse_params(id: params)
       end
-    end
-
-    def parse_response(response)
-      @params = response
-      assign_attributes(response)
-      self
     end
 
     def attributes
@@ -48,15 +41,38 @@ module Onfleet
       attrs
     end
 
-    def class_name
-      self.class.name.split('::').last
-    end
+    private
 
     def api_url
-      "#{CGI.escape(class_name.downcase)}s"
+      self.class.api_url
     end
 
-    private
+    def parse_params(params)
+      @params = params
+
+      params.each do |key, value|
+        key_underscore = key.to_s.underscore
+
+        if (klass = object_classes[key.to_s])
+          case value
+          when Array
+            objs = []
+            value.each do |v|
+              objs << klass.new(v)
+            end
+            value = objs
+          when Hash
+            value = klass.new(value)
+          end
+        end
+
+        if respond_to?("#{key_underscore}=")
+          send(:"#{key_underscore}=", value)
+        else
+          add_attrs(key_underscore.to_s => value)
+        end
+      end
+    end
 
     def camelize(string)
       camelized = string.camelize(:lower)
@@ -80,31 +96,6 @@ module Onfleet
         obj.id
       else
         obj.attributes
-      end
-    end
-
-    def assign_attributes(params)
-      params.each do |key, value|
-        key_underscore = key.to_s.underscore
-
-        if (klass = object_classes[key.to_s])
-          case value
-          when Array
-            objs = []
-            value.each do |v|
-              objs << klass.new(v)
-            end
-            value = objs
-          when Hash
-            value = klass.new(value)
-          end
-        end
-
-        if respond_to?("#{key_underscore}=")
-          send(:"#{key_underscore}=", value)
-        else
-          add_attrs(key_underscore.to_s => value)
-        end
       end
     end
 

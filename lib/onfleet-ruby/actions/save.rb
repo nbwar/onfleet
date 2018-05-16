@@ -3,7 +3,8 @@ module Onfleet
     module Save
       def save
         response = Onfleet.request(save_url, request_type, attributes)
-        parse_response(response)
+        parse_params(response)
+        self
       end
 
       private

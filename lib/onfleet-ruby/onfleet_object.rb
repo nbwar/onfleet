@@ -3,7 +3,7 @@ require 'onfleet-ruby/dsl'
 
 module Onfleet
   class OnfleetObject
-    extend Onfleet::Dsl
+    include Onfleet::Dsl
 
     attr_reader :params
 

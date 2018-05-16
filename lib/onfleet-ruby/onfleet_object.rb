@@ -16,7 +16,7 @@ module Onfleet
       end
     end
 
-    def attributes
+    def as_json
       attrs = {}
       instance_variables.reject { |var| var == '@params' }.each do |var|
         str = var.to_s.gsub(/^@/, '')
@@ -95,7 +95,7 @@ module Onfleet
       if obj.respond_to?('id') && obj.id && (obj.is_a?(Destination) || obj.is_a?(Recipient) || obj.is_a?(Task))
         obj.id
       else
-        obj.attributes
+        obj.as_json
       end
     end
 

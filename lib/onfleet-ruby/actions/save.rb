@@ -2,7 +2,7 @@ module Onfleet
   module Actions
     module Save
       def save
-        response = Onfleet.request(save_url, request_type, attributes)
+        response = Onfleet.request(save_url, request_type, as_json)
         parse_params(response)
         self
       end

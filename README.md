@@ -23,6 +23,7 @@ Onfleet::Team
 Onfleet::Destination
 Onfleet::Recipient
 Onfleet::Task
+Onfleet::Hub
 ```
 
 ## Organizations
@@ -307,6 +308,19 @@ Onfleet::Task.list({state: 0}) # => returns all tasks with state 0, see official
 **Complete**
 Currently not supported
 
+## Hubs
+
+| Name        | Type   | Description   |
+| ----------- |--------| --------------|
+| name        | string | The hub’s name. |
+| location    | array  | The `[longitude, latitude]` geographic coordinates. |
+| address     | object | The hub’s street address details. |
+
+**List**
+```ruby
+list = Onfleet::Hub.list # => [<Onfleet::Hub>]
+list.first # => Onfleet::Hub
+```
 
 ## Metadata
 | Name        | Type   | Description  |

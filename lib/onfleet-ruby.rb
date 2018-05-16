@@ -30,6 +30,7 @@ require 'onfleet-ruby/admin'
 require 'onfleet-ruby/team'
 require 'onfleet-ruby/vehicle'
 require 'onfleet-ruby/worker'
+require 'onfleet-ruby/hub'
 require 'onfleet-ruby/webhook'
 
 module Onfleet

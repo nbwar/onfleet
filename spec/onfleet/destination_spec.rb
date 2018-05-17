@@ -60,5 +60,20 @@ RSpec.describe Onfleet::Destination do
       it { should be_nil }
     end
   end
+
+  describe "#address=" do
+    subject { -> { destination.address = address } }
+    let(:destination) { described_class.new }
+
+    context "with an Address object" do
+      let(:address) { Onfleet::Address.new(address_params) }
+      it { should change(destination, :address).from(nil).to(address) }
+    end
+
+    context "with a hash of address params" do
+      let(:address) { address_params }
+      it { should change(destination, :address).from(nil).to be_kind_of(Onfleet::Address) }
+    end
+  end
 end
 

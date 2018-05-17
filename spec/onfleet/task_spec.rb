@@ -121,5 +121,73 @@ RSpec.describe Onfleet::Task do
       it_should_behave_like Onfleet::Actions::Create, path: 'tasks'
     end
   end
+
+  describe "#destination" do
+    subject { task.destination }
+
+    context "when initialized with destination params" do
+      let(:params) { { destination: destination_params } }
+      let(:destination_params) { { location: [-107, 44] } }
+      its(:location) { should == destination_params[:location] }
+    end
+
+    context "when initialized with no destination params" do
+      let(:destination_params) { nil }
+      it { should be_nil }
+    end
+  end
+
+  describe "#destination=" do
+    subject { -> { task.destination = destination } }
+    let(:task) { described_class.new }
+    let(:destination_params) { { location: [-107, 44] } }
+
+    context "with an Destination object" do
+      let(:destination) { Onfleet::Destination.new(destination_params) }
+      it { should change(task, :destination).from(nil).to(destination) }
+    end
+
+    context "with a hash of destination params" do
+      let(:destination) { destination_params }
+      it { should change(task, :destination).from(nil).to be_kind_of(Onfleet::Destination) }
+    end
+
+    context "with nil" do
+      let(:destination) { nil }
+      before { task.destination = destination_params }
+      it { should change(task, :destination).to be_nil }
+    end
+  end
+
+  describe "#recipients" do
+    subject { task.recipients }
+
+    context "when initialized with recipients params" do
+      let(:params) { { recipients: [{ name: 'Leia' }, { name: 'Han' }] } }
+      its(:size) { should == params[:recipients].size }
+      its('first.name') { should == 'Leia' }
+    end
+
+    context "when initialized with no recipients params" do
+      let(:params) { {} }
+      it { should be_empty }
+    end
+  end
+
+  describe "#recipients=" do
+    subject { -> { task.recipients = recipients } }
+    let(:recipient) { described_class.new }
+    let(:task) { described_class.new }
+
+    context "with an array of Recipient objects" do
+      let(:recipients) { [Onfleet::Recipient.new(name: 'Chewy')] }
+      it { should change(task, :recipients).from([]).to(recipients) }
+    end
+
+    context "with an array that contains a hash of recipient params" do
+      let(:recipients) { [{ name: 'Chewy' }] }
+      it { should change { task.recipients.first }.from(nil).to be_kind_of(Onfleet::Recipient) }
+    end
+  end
 end
 

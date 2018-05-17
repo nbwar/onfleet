@@ -60,20 +60,6 @@ module Onfleet
 
       params.each do |key, value|
         key = key.to_s.underscore
-
-        if (klass = object_classes[key.to_s])
-          case value
-          when Array
-            objs = []
-            value.each do |v|
-              objs << klass.new(v)
-            end
-            value = objs
-          when Hash
-            value = klass.new(value)
-          end
-        end
-
         define_attribute_accessors(key) unless respond_to?(key)
         public_send(:"#{key}=", value)
       end

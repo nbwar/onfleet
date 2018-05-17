@@ -51,10 +51,13 @@ RSpec.describe Onfleet::Task do
       let(:response_body) { { id: 'an-object' } }
 
       it "should camelize the attribute name properly" do
-        pending('JSON subkeys of non-Onfleet objects do not camelize')
         subject.call
         expect(
-          a_request(:post, url).with(body: { barcodes: [{ data: 'abc', 'blockCompletion' => true }] }.to_json)
+          a_request(:post, url).with(body: {
+            barcodes: [{ data: 'abc', 'blockCompletion' => true }],
+            destination: nil,
+            recipients: []
+          }.to_json)
         ).to have_been_made.once
       end
     end
@@ -93,10 +96,14 @@ RSpec.describe Onfleet::Task do
       let(:response_body) { { id: 'an-object' } }
 
       it "should camelize the attribute name properly" do
-        pending('JSON subkeys of non-Onfleet objects do not camelize')
         subject.call
         expect(
-          a_request(:put, url).with(body: { barcodes: [{ data: 'abc', 'blockCompletion' => true }] }.to_json)
+          a_request(:put, url).with(body: {
+            id: id,
+            barcodes: [{ data: 'abc', 'blockCompletion' => true }],
+            destination: nil,
+            recipients: []
+          }.to_json)
         ).to have_been_made.once
       end
     end
@@ -193,6 +200,37 @@ RSpec.describe Onfleet::Task do
     context "with an array that contains a hash of recipient params" do
       let(:recipients) { [{ name: 'Chewy' }] }
       it { should change { task.recipients.first }.from(nil).to be_kind_of(Onfleet::Recipient) }
+    end
+  end
+
+  describe "#barcodes" do
+    subject { task.barcodes }
+
+    context "when initialized with barcodes params" do
+      let(:params) { { barcodes: [{ data: 'foo' }, { data: 'bar' }] } }
+      its(:size) { should == params[:barcodes].size }
+      its('first.data') { should == 'foo' }
+    end
+
+    context "when initialized with no barcodes params" do
+      let(:params) { {} }
+      it { should be_empty }
+    end
+  end
+
+  describe "#barcodes=" do
+    subject { -> { task.barcodes = barcodes } }
+    let(:barcode) { described_class.new }
+    let(:task) { described_class.new }
+
+    context "with an array of Barcode objects" do
+      let(:barcodes) { [Onfleet::Barcode.new(data: 'foo')] }
+      it { should change(task, :barcodes).from([]).to(barcodes) }
+    end
+
+    context "with an array that contains a hash of barcode params" do
+      let(:barcodes) { [{ data: 'foo' }] }
+      it { should change { task.barcodes.first }.from(nil).to be_kind_of(Onfleet::Barcode) }
     end
   end
 

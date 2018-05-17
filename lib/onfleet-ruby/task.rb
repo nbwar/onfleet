@@ -3,6 +3,7 @@ module Onfleet
     onfleet_api at: 'tasks', actions: %i[list get create update save delete query_metadata]
     associated_with :destination, serialize_as: :id
     associated_with_many :recipients, serialize_as: :id
+    associated_with_many :barcodes
 
     def complete
       # CURRENTLY DOESN'T WORK

@@ -1,6 +1,7 @@
 RSpec.describe Onfleet::Destination do
   let(:destination) { described_class.new(params) }
-  let(:params) { { id: 'a-destination', address: address_params } }
+  let(:params) { { id: id, address: address_params } }
+  let(:id) { 'a-destination' }
   let(:address_params) { { street: '123 Main', city: 'Foo', state: 'TX' } }
 
   it_should_behave_like Onfleet::OnfleetObject

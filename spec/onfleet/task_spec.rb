@@ -1,6 +1,7 @@
 RSpec.describe Onfleet::Task do
   let(:task) { described_class.new(params) }
-  let(:params) { { id: 'a-task', short_id: 'at', destination: 'a-destination', recipients: ['jeff'] } }
+  let(:params) { { id: id, short_id: 'at', destination: 'a-destination', recipients: ['jeff'] } }
+  let(:id) { 'a-task' }
 
   it_should_behave_like Onfleet::OnfleetObject
 
@@ -61,33 +62,34 @@ RSpec.describe Onfleet::Task do
 
   describe ".get" do
     subject { -> { described_class.get(id) } }
-    let(:id) { 'a-task' }
     it_should_behave_like Onfleet::Actions::Get, path: 'tasks/a-task'
   end
 
   describe ".update" do
     subject { -> { described_class.update(id, params) } }
-    let(:id) { 'a-task' }
     it_should_behave_like Onfleet::Actions::Update, path: 'tasks/a-task'
 
     context "with the skip_sms_notification override attribute" do
       set_up_request_stub(:put, 'tasks/a-task')
-      let(:params) { { id: 'a-task', recipient_skip_sms_notifications: true } }
+      let(:params) { { id: id, recipient_skip_sms_notifications: true } }
       let(:response_body) { { id: 'an-object' } }
 
-      # The current implementation -- using instance variables -- makes it impossible
-      # to have this example pass deterministically.
-      xit "should camelize the attribute name properly" do
+      it "should camelize the attribute name properly" do
         subject.call
         expect(
-          a_request(:put, url).with(body: { id: 'a-task', recipientSkipSMSNotifications: true }.to_json)
+          a_request(:put, url).with(body: {
+            id: id,
+            recipientSkipSMSNotifications: true,
+            destination: nil,
+            recipients: []
+          }.to_json)
         ).to have_been_made.once
       end
     end
 
     context "with barcode attributes" do
       set_up_request_stub(:put, 'tasks/a-task')
-      let(:params) { { id: 'a-task', barcodes: [{ data: 'abc', block_completion: true }] } }
+      let(:params) { { id: id, barcodes: [{ data: 'abc', block_completion: true }] } }
       let(:response_body) { { id: 'an-object' } }
 
       it "should camelize the attribute name properly" do

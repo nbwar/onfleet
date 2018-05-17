@@ -1,6 +1,7 @@
 RSpec.describe Onfleet::Worker do
   let(:worker) { described_class.new(params) }
-  let(:params) { { id: 'a-worker', name: 'F. Prefect', phone: '5551212', tasks: [] } }
+  let(:params) { { id: id, name: 'F. Prefect', phone: '5551212', tasks: [] } }
+  let(:id) { 'a-worker' }
 
   it_should_behave_like Onfleet::OnfleetObject
 
@@ -30,19 +31,16 @@ RSpec.describe Onfleet::Worker do
 
   describe ".get" do
     subject { -> { described_class.get(id) } }
-    let(:id) { 'a-worker' }
     it_should_behave_like Onfleet::Actions::Get, path: 'workers/a-worker'
   end
 
   describe ".update" do
     subject { -> { described_class.update(id, params) } }
-    let(:id) { 'a-worker' }
     it_should_behave_like Onfleet::Actions::Update, path: 'workers/a-worker'
   end
 
   describe ".delete" do
     subject { -> { described_class.delete(id) } }
-    let(:id) { 'a-worker' }
     it_should_behave_like Onfleet::Actions::Delete, path: 'workers/a-worker'
   end
 

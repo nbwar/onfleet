@@ -69,7 +69,7 @@ module Onfleet
       end
 
       def define_single_association_setter(associated)
-        require "onfleet-ruby/#{associated}"
+        require "onfleet/#{associated}"
         associated_class = Onfleet.const_get(associated.to_s.camelize)
 
         define_method(:"#{associated}=") do |value|
@@ -83,7 +83,7 @@ module Onfleet
 
       def define_many_association_setter(associated)
         singular = associated.to_s.singularize
-        require "onfleet-ruby/#{singular}"
+        require "onfleet/#{singular}"
         associated_class = Onfleet.const_get(singular.camelize)
 
         define_method(:"#{associated}=") do |values|

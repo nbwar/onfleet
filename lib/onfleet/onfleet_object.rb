@@ -1,7 +1,7 @@
 require 'active_support/core_ext/string/inflections'
 require 'active_support/json'
 require 'active_support/core_ext/object/json'
-require 'onfleet-ruby/dsl'
+require 'onfleet/dsl'
 
 module Onfleet
   class OnfleetObject

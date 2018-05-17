@@ -2,7 +2,7 @@ module Onfleet
   class Worker < OnfleetObject
     onfleet_api at: 'workers', actions: %i[list get create update save delete query_metadata]
     associated_with :vehicle
-    associated_with_many :tasks
+    associated_with_many :tasks, serialize_as: :id
   end
 end
 

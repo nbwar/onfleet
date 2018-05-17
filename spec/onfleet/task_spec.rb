@@ -1,6 +1,6 @@
 RSpec.describe Onfleet::Task do
   let(:task) { described_class.new(params) }
-  let(:params) { { id: 'a-task', short_id: 'at', recipients: ['jeff'] } }
+  let(:params) { { id: 'a-task', short_id: 'at', destination: 'a-destination', recipients: ['jeff'] } }
 
   it_should_behave_like Onfleet::OnfleetObject
 
@@ -35,7 +35,11 @@ RSpec.describe Onfleet::Task do
       it "should camelize the attribute name properly" do
         subject.call
         expect(
-          a_request(:post, url).with(body: { recipientSkipSMSNotifications: true }.to_json)
+          a_request(:post, url).with(body: {
+            recipientSkipSMSNotifications: true,
+            destination: nil,
+            recipients: []
+          }.to_json)
         ).to have_been_made.once
       end
     end
@@ -117,7 +121,7 @@ RSpec.describe Onfleet::Task do
     end
 
     context "without an ID attribute" do
-      let(:params) { { short_id: 'at', recipients: ['jeff'] } }
+      let(:params) { { short_id: 'at', destination: 'a-destination', recipients: ['jeff'] } }
       it_should_behave_like Onfleet::Actions::Create, path: 'tasks'
     end
   end
@@ -132,7 +136,7 @@ RSpec.describe Onfleet::Task do
     end
 
     context "when initialized with no destination params" do
-      let(:destination_params) { nil }
+      let(:params) { { destination: nil } }
       it { should be_nil }
     end
   end
@@ -187,6 +191,23 @@ RSpec.describe Onfleet::Task do
     context "with an array that contains a hash of recipient params" do
       let(:recipients) { [{ name: 'Chewy' }] }
       it { should change { task.recipients.first }.from(nil).to be_kind_of(Onfleet::Recipient) }
+    end
+  end
+
+  describe "#as_json" do
+    subject { task.as_json }
+
+    its(['id']) { should == params[:id] }
+    its(['shortId']) { should == params[:short_id] }
+
+    context "with a destination" do
+      let(:params) { { destination: Onfleet::Destination.new(id: 'a-destination') } }
+      its(['destination']) { should == 'a-destination' }
+    end
+
+    context "with recipients" do
+      let(:params) { { recipients: [{ id: 'a-recipient' }, { id: 'another-recipient' }] } }
+      its(['recipients']) { should == ['a-recipient', 'another-recipient'] }
     end
   end
 end

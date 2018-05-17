@@ -1,4 +1,6 @@
 require 'active_support/core_ext/string/inflections'
+require 'active_support/json'
+require 'active_support/core_ext/object/json'
 require 'onfleet-ruby/dsl'
 
 module Onfleet
@@ -23,26 +25,10 @@ module Onfleet
       attributes['id'] = value
     end
 
-    def as_json
-      attrs = {}
-      attributes.each do |name, value|
-        if object_classes[name]
-          if value.is_a?(OnfleetObject)
-            attrs[camelize(name).to_sym] = parse_onfleet_obj(value)
-          elsif value.is_a?(Array)
-            objs = []
-            value.each do |object|
-              objs << parse_onfleet_obj(object)
-            end
-            attrs[camelize(name).to_sym] = objs
-          else
-            attrs[camelize(name).to_sym] = value
-          end
-        else
-          attrs[camelize(name).to_sym] = value
-        end
-      end
-      attrs
+    def as_json(*options)
+      attributes
+        .as_json(*options)
+        .transform_keys { |key| camelize_with_acronym(key) }
     end
 
     private
@@ -65,36 +51,16 @@ module Onfleet
       end
     end
 
-    def camelize(string)
-      camelized = string.camelize(:lower)
-      camelized.gsub('Sms', 'SMS')
-    end
-
-    def object_classes
-      @object_classes ||= {
-        'address'     => Address,
-        'recipients'  => Recipient,
-        'recipient'   => Recipient,
-        'tasks'       => Task,
-        'destination' => Destination,
-        'vehicle'     => Vehicle
-      }
-    end
-
-    def parse_onfleet_obj(obj)
-      return unless obj.is_a?(OnfleetObject)
-      if obj.respond_to?('id') && obj.id && (obj.is_a?(Destination) || obj.is_a?(Recipient) || obj.is_a?(Task))
-        obj.id
-      else
-        obj.as_json
-      end
-    end
-
     def define_attribute_accessors(attr)
       attr = attr.to_s
 
       singleton_class.define_method(:"#{attr}=") { |value| attributes[attr] = value }
       singleton_class.define_method(attr) { attributes[attr] }
+    end
+
+    def camelize_with_acronym(string)
+      camelized = string.camelize(:lower)
+      camelized.gsub('Sms', 'SMS')
     end
   end
 end

@@ -1,6 +1,6 @@
 RSpec.describe Onfleet::Worker do
   let(:worker) { described_class.new(params) }
-  let(:params) { { id: 'a-worker', name: 'F. Prefect', phone: '5551212' } }
+  let(:params) { { id: 'a-worker', name: 'F. Prefect', phone: '5551212', tasks: [] } }
 
   it_should_behave_like Onfleet::OnfleetObject
 
@@ -61,7 +61,7 @@ RSpec.describe Onfleet::Worker do
     end
 
     context "without an ID attribute" do
-      let(:params) { { name: 'An Worker' } }
+      let(:params) { { name: 'A Worker', tasks: [] } }
       it_should_behave_like Onfleet::Actions::Create, path: 'workers'
     end
   end
@@ -132,6 +132,28 @@ RSpec.describe Onfleet::Worker do
     context "with an array that contains a hash of task params" do
       let(:tasks) { [{ worker: 'Leia' }] }
       it { should change { worker.tasks.first }.from(nil).to be_kind_of(Onfleet::Task) }
+    end
+  end
+
+  describe "#as_json" do
+    subject { worker.as_json }
+
+    its(['id']) { should == params[:id] }
+
+    context "with a vehicle" do
+      let(:params) { { vehicle: Onfleet::Vehicle.new(vehicle_params) } }
+      let(:vehicle_params) { { type: 'BICYCLE', description: 'Unicycle', license_plate: 'CLWNSRUL' } }
+
+      it "should include the full vehicle attributes" do
+        expect(subject['vehicle']['type']).to eq(vehicle_params[:type])
+        expect(subject['vehicle']['description']).to eq(vehicle_params[:description])
+        expect(subject['vehicle']['licensePlate']).to eq(vehicle_params[:license_plate])
+      end
+    end
+
+    context "with tasks" do
+      let(:params) { { tasks: [{ id: 'a-task' }, { id: 'another-task' }] } }
+      its(['tasks']) { should == ['a-task', 'another-task'] }
     end
   end
 end

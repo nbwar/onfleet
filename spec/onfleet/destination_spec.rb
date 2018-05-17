@@ -75,5 +75,21 @@ RSpec.describe Onfleet::Destination do
       it { should change(destination, :address).from(nil).to be_kind_of(Onfleet::Address) }
     end
   end
+
+  describe "#as_json" do
+    subject { destination.as_json }
+
+    its(['id']) { should == params[:id] }
+
+    context "with an address" do
+      let(:params) { { address: Onfleet::Address.new(address_params) } }
+      let(:address_params) { { street: 'Main St', postal_code: '99999' } }
+
+      it "should include the full address attributes" do
+        expect(subject['address']['street']).to eq(address_params[:street])
+        expect(subject['address']['postalCode']).to eq(address_params[:postal_code])
+      end
+    end
+  end
 end
 

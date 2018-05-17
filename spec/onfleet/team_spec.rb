@@ -59,5 +59,16 @@ RSpec.describe Onfleet::Team do
       it { should change { team.tasks.first }.from(nil).to be_kind_of(Onfleet::Task) }
     end
   end
+
+  describe "#as_json" do
+    subject { team.as_json }
+
+    its(['id']) { should == params[:id] }
+
+    context "with tasks" do
+      let(:params) { { tasks: [{ id: 'a-task' }, { id: 'another-task' }] } }
+      its(['tasks']) { should == ['a-task', 'another-task'] }
+    end
+  end
 end
 

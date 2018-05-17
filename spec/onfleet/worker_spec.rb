@@ -3,7 +3,7 @@ RSpec.describe Onfleet::Worker do
   let(:params) { { id: id, name: 'F. Prefect', phone: '5551212', tasks: [] } }
   let(:id) { 'a-worker' }
 
-  it_should_behave_like Onfleet::OnfleetObject
+  it_should_behave_like Onfleet::Base
 
   describe ".list" do
     subject { -> { described_class.list(query_params) } }

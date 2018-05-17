@@ -2,7 +2,7 @@ RSpec.describe Onfleet::Hub do
   let(:hub) { described_class.new(params) }
   let(:params) { { id: 'a-hub', name: 'The Warehouse' } }
 
-  it_should_behave_like Onfleet::OnfleetObject
+  it_should_behave_like Onfleet::Base
 
   describe ".list" do
     subject { -> { described_class.list(query_params) } }

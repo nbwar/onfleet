@@ -4,7 +4,7 @@ RSpec.describe Onfleet::Destination do
   let(:id) { 'a-destination' }
   let(:address_params) { { street: '123 Main', city: 'Foo', state: 'TX' } }
 
-  it_should_behave_like Onfleet::OnfleetObject
+  it_should_behave_like Onfleet::Base
 
   describe ".create" do
     subject { -> { described_class.create(params) } }

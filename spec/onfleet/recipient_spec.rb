@@ -3,7 +3,7 @@ RSpec.describe Onfleet::Recipient do
   let(:params) { { id: id, name: 'Recipient Jones' } }
   let(:id) { 'a-recipient' }
 
-  it_should_behave_like Onfleet::OnfleetObject
+  it_should_behave_like Onfleet::Base
 
   describe ".create" do
     subject { -> { described_class.create(params) } }

@@ -1,5 +1,5 @@
 module Onfleet
-  class Address < OnfleetObject
+  class Address < Base
   end
 end
 

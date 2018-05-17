@@ -16,7 +16,7 @@ require 'onfleet/actions/query_metadata'
 
 # Resources
 require 'onfleet/http'
-require 'onfleet/onfleet_object'
+require 'onfleet/base'
 require 'onfleet/recipient'
 require 'onfleet/destination'
 require 'onfleet/address'

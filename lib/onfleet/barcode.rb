@@ -1,5 +1,5 @@
 module Onfleet
-  class Barcode < OnfleetObject
+  class Barcode < Base
   end
 end
 

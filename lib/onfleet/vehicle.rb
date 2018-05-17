@@ -1,5 +1,5 @@
 module Onfleet
-  class Vehicle < OnfleetObject
+  class Vehicle < Base
   end
 end
 

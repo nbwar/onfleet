@@ -3,7 +3,7 @@ RSpec.describe Onfleet::Admin do
   let(:params) { { id: id, name: 'An Admin' } }
   let(:id) { 'an-admin' }
 
-  it_should_behave_like Onfleet::OnfleetObject
+  it_should_behave_like Onfleet::Base
 
   describe ".list" do
     subject { -> { described_class.list(query_params) } }

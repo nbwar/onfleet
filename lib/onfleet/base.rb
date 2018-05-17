@@ -4,7 +4,7 @@ require 'active_support/core_ext/object/json'
 require 'onfleet/dsl'
 
 module Onfleet
-  class OnfleetObject
+  class Base
     include Onfleet::Dsl
 
     attr_reader :params

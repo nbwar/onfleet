@@ -1,4 +1,4 @@
-RSpec.shared_examples_for Onfleet::OnfleetObject do
+RSpec.shared_examples_for Onfleet::Base do
   describe "#initialize" do
     subject { described_class.new(param) }
     let(:id) { 'an-object' }

@@ -1,6 +1,9 @@
 RSpec.describe Onfleet::Admin do
   let(:admin) { described_class.new(params) }
-  let(:params) { { id: 'an-admin', name: 'An Admin' } }
+  let(:params) { { id: id, name: 'An Admin' } }
+  let(:id) { 'an-admin' }
+
+  it_should_behave_like Onfleet::Base
 
   describe ".list" do
     subject { -> { described_class.list(query_params) } }
@@ -28,13 +31,11 @@ RSpec.describe Onfleet::Admin do
 
   describe ".update" do
     subject { -> { described_class.update(id, params) } }
-    let(:id) { 'an-admin' }
     it_should_behave_like Onfleet::Actions::Update, path: 'admins/an-admin'
   end
 
   describe ".delete" do
     subject { -> { described_class.delete(id) } }
-    let(:id) { 'an-admin' }
     it_should_behave_like Onfleet::Actions::Delete, path: 'admins/an-admin'
   end
 

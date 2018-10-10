@@ -2,6 +2,8 @@ RSpec.describe Onfleet::Organization do
   let(:organization) { described_class.new(params) }
   let(:params) { { id: 'an-org' } }
 
+  it_should_behave_like Onfleet::Base
+
   describe ".get" do
     subject { -> { described_class.get } }
     it_should_behave_like Onfleet::Actions::Get, path: 'organization'

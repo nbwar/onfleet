@@ -1,5 +1,5 @@
 module Onfleet
-  class Organization < OnfleetObject
+  class Organization < Base
     class << self
       def get
         new(Onfleet.request('organization', :get))

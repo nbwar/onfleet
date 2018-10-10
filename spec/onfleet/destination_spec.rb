@@ -1,7 +1,10 @@
 RSpec.describe Onfleet::Destination do
   let(:destination) { described_class.new(params) }
-  let(:params) { { id: 'a-destination', address: address_params } }
+  let(:params) { { id: id, address: address_params } }
+  let(:id) { 'a-destination' }
   let(:address_params) { { street: '123 Main', city: 'Foo', state: 'TX' } }
+
+  it_should_behave_like Onfleet::Base
 
   describe ".create" do
     subject { -> { described_class.create(params) } }
@@ -56,6 +59,37 @@ RSpec.describe Onfleet::Destination do
     context "when initialized with no address params" do
       let(:address_params) { nil }
       it { should be_nil }
+    end
+  end
+
+  describe "#address=" do
+    subject { -> { destination.address = address } }
+    let(:destination) { described_class.new }
+
+    context "with an Address object" do
+      let(:address) { Onfleet::Address.new(address_params) }
+      it { should change(destination, :address).from(nil).to(address) }
+    end
+
+    context "with a hash of address params" do
+      let(:address) { address_params }
+      it { should change(destination, :address).from(nil).to be_kind_of(Onfleet::Address) }
+    end
+  end
+
+  describe "#as_json" do
+    subject { destination.as_json }
+
+    its(['id']) { should == params[:id] }
+
+    context "with an address" do
+      let(:params) { { address: Onfleet::Address.new(address_params) } }
+      let(:address_params) { { street: 'Main St', postal_code: '99999' } }
+
+      it "should include the full address attributes" do
+        expect(subject['address']['street']).to eq(address_params[:street])
+        expect(subject['address']['postalCode']).to eq(address_params[:postal_code])
+      end
     end
   end
 end

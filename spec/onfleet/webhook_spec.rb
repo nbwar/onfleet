@@ -1,6 +1,9 @@
 RSpec.describe Onfleet::Webhook do
   let(:webhook) { described_class.new(params) }
-  let(:params) { { id: 'a-webhook', url: 'https://example.com', is_enabled: true } }
+  let(:params) { { id: id, url: 'https://example.com', is_enabled: true } }
+  let(:id) { 'a-webhook' }
+
+  it_should_behave_like Onfleet::Base
 
   describe ".list" do
     subject { -> { described_class.list(query_params) } }
@@ -28,7 +31,6 @@ RSpec.describe Onfleet::Webhook do
 
   describe ".delete" do
     subject { -> { described_class.delete(id) } }
-    let(:id) { 'a-webhook' }
     it_should_behave_like Onfleet::Actions::Delete, path: 'webhooks/a-webhook'
   end
 

@@ -1,0 +1,17 @@
+inherit_from: .rubocop_todo.yml
+
+AllCops:
+  TargetRubyVersion: 2.2
+
+# Keep diffs clean
+Layout/TrailingBlankLines:
+  EnforcedStyle: final_blank_line
+
+# Allow the gem to have a non-snakecase name
+Naming/FileName:
+  Exclude:
+    - 'lib/onfleet-ruby.rb'
+
+Style/Documentation:
+  Enabled: false
+

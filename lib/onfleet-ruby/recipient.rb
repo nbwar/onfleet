@@ -8,7 +8,8 @@ module Onfleet
     include Onfleet::Actions::QueryMetadata
 
     def self.api_url
-      "/recipients"
+      '/recipients'
     end
   end
 end
+

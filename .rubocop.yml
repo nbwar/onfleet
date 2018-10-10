@@ -7,6 +7,11 @@ AllCops:
 Layout/TrailingBlankLines:
   EnforcedStyle: final_blank_line
 
+# No way to avoid large blocks in RSpec
+Metrics/BlockLength:
+  Exclude:
+    - spec/**/*
+
 # Allow the gem to have a non-snakecase name
 Naming/FileName:
   Exclude:
@@ -14,4 +19,8 @@ Naming/FileName:
 
 Style/Documentation:
   Enabled: false
+
+Style/StringLiterals:
+  Exclude:
+    - spec/**/*
 

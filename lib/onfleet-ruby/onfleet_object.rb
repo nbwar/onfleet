@@ -1,6 +1,8 @@
 module Onfleet
   class OnfleetObject
     attr_reader :params
+    attr_accessor :id
+
     def initialize(params)
       if params.is_a?(Hash)
         @params = params
@@ -49,7 +51,7 @@ module Onfleet
     end
 
     def api_url
-      "/#{CGI.escape(class_name.downcase)}s"
+      "#{CGI.escape(class_name.downcase)}s"
     end
 
     private

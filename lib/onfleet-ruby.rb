@@ -36,7 +36,7 @@ require 'onfleet-ruby/worker'
 require 'onfleet-ruby/webhook'
 
 module Onfleet
-  @base_url = 'https://onfleet.com/api/v2'
+  @base_url = 'https://onfleet.com/api/v2/'
 
   class << self
     attr_accessor :api_key, :base_url
@@ -45,7 +45,8 @@ module Onfleet
       raise(AuthenticationError, 'Set your API Key using Onfleet.api_key = <API_KEY>') unless api_key
 
       begin
-        response = RestClient::Request.execute(method: method, url: base_url + api_url, payload: params.to_json, headers: request_headers)
+        url = URI.join(base_url, api_url).to_s
+        response = RestClient::Request.execute(method: method, url: url, payload: params.to_json, headers: request_headers)
         JSON.parse(response) unless response.empty?
       rescue RestClient::ExceptionWithResponse => e
         if (response_code = e.http_code) && (response_body = e.http_body)

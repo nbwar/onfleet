@@ -9,7 +9,7 @@ module Onfleet
     include Onfleet::Actions::QueryMetadata
 
     def self.api_url
-      '/tasks'
+      'tasks'
     end
 
     def complete

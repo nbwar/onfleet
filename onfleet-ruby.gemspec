@@ -9,11 +9,14 @@ Gem::Specification.new do |s|
   s.homepage    = 'http://rubygems.org/gems/onfleet-ruby'
   s.license     = 'MIT'
 
+  s.add_dependency('activesupport', '>= 4.2')
   s.add_dependency('rest-client', '~> 1.4')
 
   s.add_development_dependency('rake')
-  s.add_development_dependency('rspec', '~> 3.3.0', '>= 3.0.0')
+  s.add_development_dependency('rspec', '~> 3.3')
+  s.add_development_dependency('rspec-its')
   s.add_development_dependency('rubocop', '~> 0.55')
+  s.add_development_dependency('webmock', '~> 3.4')
 
   s.files         = `git ls-files`.split("\n")
   s.test_files    = `git ls-files -- {test,spec,features}/*`.split("\n")

@@ -10,7 +10,7 @@ Gem::Specification.new do |s|
   s.license     = 'MIT'
 
   s.add_dependency('activesupport', '>= 4.2')
-  s.add_dependency('rest-client', '~> 1.4')
+  s.add_dependency('rest-client', '~> 2.0')
 
   s.add_development_dependency('rake')
   s.add_development_dependency('rspec', '~> 3.3')

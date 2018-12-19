@@ -21,6 +21,25 @@ RSpec.describe Onfleet::Task do
     end
   end
 
+  describe ".list_all" do
+    subject { -> { described_class.list_all(query_params) } }
+
+    context "with no filter" do
+      let(:query_params) { nil }
+      it_should_behave_like "list all tasks", path: 'tasks/all'
+    end
+
+    context "with query params" do
+      let(:query_params) { { food: 'pizza', topping: 'mushroom' } }
+      it_should_behave_like "list all tasks", path: 'tasks/all?food=pizza&topping=mushroom'
+    end
+
+    context "with a URL-unsafe query param" do
+      let(:query_params) { { food: 'green eggs & ham' } }
+      it_should_behave_like "list all tasks", path: 'tasks/all?food=green+eggs+%26+ham'
+    end
+  end
+
   describe ".create" do
     subject { -> { described_class.create(params) } }
     it_should_behave_like Onfleet::Actions::Create, path: 'tasks'

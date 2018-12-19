@@ -52,6 +52,12 @@ RSpec.shared_examples_for Onfleet::Actions::List do |path:|
   it_should_behave_like "an action that makes a request to Onfleet", method: :get
 end
 
+RSpec.shared_examples_for "list all tasks" do |path:|
+  set_up_request_stub(:get, path)
+  let(:response_body) { { 'lastId' => 'some-id', 'tasks' => [{ id: 'an-object' }, { id: 'another-object' }] } }
+  it_should_behave_like "an action that makes a request to Onfleet", method: :get
+end
+
 RSpec.shared_examples_for Onfleet::Actions::Create do |path:|
   set_up_request_stub(:post, path)
   let(:response_body) { { id: 'an-object' } }

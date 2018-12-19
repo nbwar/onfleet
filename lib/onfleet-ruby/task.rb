@@ -19,6 +19,20 @@ module Onfleet
       Onfleet.request(url, :post, params)
       true
     end
+
+    def self.list_all(filters)
+      response = Onfleet.request(list_all_url_for(filters), :get)
+      {
+        lastId: response['lastId'],
+        tasks: response['tasks'].compact.map { |item| new(item) }
+      }
+    end
+
+    private
+
+    def self.list_all_url_for(filters)
+      [api_url + '/all', query_params(filters)].compact.join('?')
+    end
   end
 end
 

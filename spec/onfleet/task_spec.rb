@@ -1,6 +1,9 @@
 RSpec.describe Onfleet::Task do
   let(:task) { described_class.new(params) }
-  let(:params) { { id: 'a-task', short_id: 'at', recipients: ['jeff'] } }
+  let(:params) { { id: id, short_id: 'at', destination: 'a-destination', recipients: ['jeff'] } }
+  let(:id) { 'a-task' }
+
+  it_should_behave_like Onfleet::OnfleetObject
 
   describe ".list" do
     subject { -> { described_class.list(query_params) } }
@@ -31,10 +34,13 @@ RSpec.describe Onfleet::Task do
       let(:response_body) { { id: 'an-object' } }
 
       it "should camelize the attribute name properly" do
-        pending('The SMS acronym does not camelize consistently')
         subject.call
         expect(
-          a_request(:post, url).with(body: { recipientSkipSMSNotifications: true }.to_json)
+          a_request(:post, url).with(body: {
+            recipientSkipSMSNotifications: true,
+            destination: nil,
+            recipients: []
+          }.to_json)
         ).to have_been_made.once
       end
     end
@@ -45,10 +51,13 @@ RSpec.describe Onfleet::Task do
       let(:response_body) { { id: 'an-object' } }
 
       it "should camelize the attribute name properly" do
-        pending('JSON subkeys of non-Onfleet objects do not camelize')
         subject.call
         expect(
-          a_request(:post, url).with(body: { barcodes: [{ data: 'abc', 'blockCompletion' => true }] }.to_json)
+          a_request(:post, url).with(body: {
+            barcodes: [{ data: 'abc', 'blockCompletion' => true }],
+            destination: nil,
+            recipients: []
+          }.to_json)
         ).to have_been_made.once
       end
     end
@@ -56,39 +65,45 @@ RSpec.describe Onfleet::Task do
 
   describe ".get" do
     subject { -> { described_class.get(id) } }
-    let(:id) { 'a-task' }
     it_should_behave_like Onfleet::Actions::Get, path: 'tasks/a-task'
   end
 
   describe ".update" do
     subject { -> { described_class.update(id, params) } }
-    let(:id) { 'a-task' }
     it_should_behave_like Onfleet::Actions::Update, path: 'tasks/a-task'
 
     context "with the skip_sms_notification override attribute" do
       set_up_request_stub(:put, 'tasks/a-task')
-      let(:params) { { id: 'a-task', recipient_skip_sms_notifications: true } }
+      let(:params) { { id: id, recipient_skip_sms_notifications: true } }
       let(:response_body) { { id: 'an-object' } }
 
       it "should camelize the attribute name properly" do
-        pending('The SMS acronym does not camelize consistently')
         subject.call
         expect(
-          a_request(:put, url).with(body: { recipientSkipSMSNotifications: true }.to_json)
+          a_request(:put, url).with(body: {
+            id: id,
+            recipientSkipSMSNotifications: true,
+            destination: nil,
+            recipients: []
+          }.to_json)
         ).to have_been_made.once
       end
     end
 
     context "with barcode attributes" do
       set_up_request_stub(:put, 'tasks/a-task')
-      let(:params) { { id: 'a-task', barcodes: [{ data: 'abc', block_completion: true }] } }
+      let(:params) { { id: id, barcodes: [{ data: 'abc', block_completion: true }] } }
       let(:response_body) { { id: 'an-object' } }
 
       it "should camelize the attribute name properly" do
-        pending('JSON subkeys of non-Onfleet objects do not camelize')
         subject.call
         expect(
-          a_request(:put, url).with(body: { barcodes: [{ data: 'abc', 'blockCompletion' => true }] }.to_json)
+          a_request(:put, url).with(body: {
+            id: id,
+            barcodes: [{ data: 'abc', 'blockCompletion' => true }],
+            destination: nil,
+            recipients: []
+          }.to_json)
         ).to have_been_made.once
       end
     end
@@ -115,8 +130,124 @@ RSpec.describe Onfleet::Task do
     end
 
     context "without an ID attribute" do
-      let(:params) { { short_id: 'at', recipients: ['jeff'] } }
+      let(:params) { { short_id: 'at', destination: 'a-destination', recipients: ['jeff'] } }
       it_should_behave_like Onfleet::Actions::Create, path: 'tasks'
+    end
+  end
+
+  describe "#destination" do
+    subject { task.destination }
+
+    context "when initialized with destination params" do
+      let(:params) { { destination: destination_params } }
+      let(:destination_params) { { location: [-107, 44] } }
+      its(:location) { should == destination_params[:location] }
+    end
+
+    context "when initialized with no destination params" do
+      let(:params) { { destination: nil } }
+      it { should be_nil }
+    end
+  end
+
+  describe "#destination=" do
+    subject { -> { task.destination = destination } }
+    let(:task) { described_class.new }
+    let(:destination_params) { { location: [-107, 44] } }
+
+    context "with an Destination object" do
+      let(:destination) { Onfleet::Destination.new(destination_params) }
+      it { should change(task, :destination).from(nil).to(destination) }
+    end
+
+    context "with a hash of destination params" do
+      let(:destination) { destination_params }
+      it { should change(task, :destination).from(nil).to be_kind_of(Onfleet::Destination) }
+    end
+
+    context "with nil" do
+      let(:destination) { nil }
+      before { task.destination = destination_params }
+      it { should change(task, :destination).to be_nil }
+    end
+  end
+
+  describe "#recipients" do
+    subject { task.recipients }
+
+    context "when initialized with recipients params" do
+      let(:params) { { recipients: [{ name: 'Leia' }, { name: 'Han' }] } }
+      its(:size) { should == params[:recipients].size }
+      its('first.name') { should == 'Leia' }
+    end
+
+    context "when initialized with no recipients params" do
+      let(:params) { {} }
+      it { should be_empty }
+    end
+  end
+
+  describe "#recipients=" do
+    subject { -> { task.recipients = recipients } }
+    let(:recipient) { described_class.new }
+    let(:task) { described_class.new }
+
+    context "with an array of Recipient objects" do
+      let(:recipients) { [Onfleet::Recipient.new(name: 'Chewy')] }
+      it { should change(task, :recipients).from([]).to(recipients) }
+    end
+
+    context "with an array that contains a hash of recipient params" do
+      let(:recipients) { [{ name: 'Chewy' }] }
+      it { should change { task.recipients.first }.from(nil).to be_kind_of(Onfleet::Recipient) }
+    end
+  end
+
+  describe "#barcodes" do
+    subject { task.barcodes }
+
+    context "when initialized with barcodes params" do
+      let(:params) { { barcodes: [{ data: 'foo' }, { data: 'bar' }] } }
+      its(:size) { should == params[:barcodes].size }
+      its('first.data') { should == 'foo' }
+    end
+
+    context "when initialized with no barcodes params" do
+      let(:params) { {} }
+      it { should be_empty }
+    end
+  end
+
+  describe "#barcodes=" do
+    subject { -> { task.barcodes = barcodes } }
+    let(:barcode) { described_class.new }
+    let(:task) { described_class.new }
+
+    context "with an array of Barcode objects" do
+      let(:barcodes) { [Onfleet::Barcode.new(data: 'foo')] }
+      it { should change(task, :barcodes).from([]).to(barcodes) }
+    end
+
+    context "with an array that contains a hash of barcode params" do
+      let(:barcodes) { [{ data: 'foo' }] }
+      it { should change { task.barcodes.first }.from(nil).to be_kind_of(Onfleet::Barcode) }
+    end
+  end
+
+  describe "#as_json" do
+    subject { task.as_json }
+
+    its(['id']) { should == params[:id] }
+    its(['shortId']) { should == params[:short_id] }
+
+    context "with a destination" do
+      let(:params) { { destination: Onfleet::Destination.new(id: 'a-destination') } }
+      its(['destination']) { should == 'a-destination' }
+    end
+
+    context "with recipients" do
+      let(:params) { { recipients: [{ id: 'a-recipient' }, { id: 'another-recipient' }] } }
+      its(['recipients']) { should == ['a-recipient', 'another-recipient'] }
     end
   end
 end

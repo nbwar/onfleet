@@ -74,10 +74,8 @@ RSpec.shared_examples_for Onfleet::Actions::Update do |path:|
 
   it_should_behave_like "an action that makes a request to Onfleet", method: :put
 
-  # The current implementation -- using instance variables -- makes it impossible
-  # to have this example pass deterministically.
-  xit "should send the object params, including ID, in JSON" do
-    expected_params = camelize_keys(params.merge(id: id))
+  it "should send the object params, including ID, in JSON" do
+    expected_params = camelize_keys(params.merge(id: id).stringify_keys)
 
     subject.call
     expect(

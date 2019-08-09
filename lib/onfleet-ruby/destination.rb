@@ -1,13 +1,7 @@
 module Onfleet
   class Destination < OnfleetObject
-    include Onfleet::Actions::Create
-    include Onfleet::Actions::Save
-    include Onfleet::Actions::Get
-    include Onfleet::Actions::QueryMetadata
-
-    def self.api_url
-      'destinations'
-    end
+    onfleet_api at: 'destinations', actions: %i[create save get query_metadata]
+    associated_with :address
   end
 end
 

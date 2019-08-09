@@ -1,16 +1,8 @@
 module Onfleet
   class Worker < OnfleetObject
-    include Onfleet::Actions::Create
-    include Onfleet::Actions::List
-    include Onfleet::Actions::Get
-    include Onfleet::Actions::Save
-    include Onfleet::Actions::Update
-    include Onfleet::Actions::Delete
-    include Onfleet::Actions::QueryMetadata
-
-    def self.api_url
-      'workers'
-    end
+    onfleet_api at: 'workers', actions: %i[list get create update save delete query_metadata]
+    associated_with :vehicle
+    associated_with_many :tasks, serialize_as: :id
   end
 end
 

@@ -7,6 +7,11 @@ AllCops:
 Layout/TrailingBlankLines:
   EnforcedStyle: final_blank_line
 
+# RSpec uses unparenthesized blocks all over; allow the idiomatic RSpec style.
+Lint/AmbiguousBlockAssociation:
+  Exclude:
+    - spec/**/*
+
 # No way to avoid large blocks in RSpec
 Metrics/BlockLength:
   Exclude:

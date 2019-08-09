@@ -3,9 +3,6 @@ require 'json'
 require 'base64'
 require 'uri'
 
-# Utils
-require 'onfleet-ruby/util'
-
 # Errors
 require 'onfleet-ruby/errors/onfleet_error'
 require 'onfleet-ruby/errors/authentication_error'
@@ -27,12 +24,14 @@ require 'onfleet-ruby/onfleet_object'
 require 'onfleet-ruby/recipient'
 require 'onfleet-ruby/destination'
 require 'onfleet-ruby/address'
+require 'onfleet-ruby/barcode'
 require 'onfleet-ruby/task'
 require 'onfleet-ruby/organization'
 require 'onfleet-ruby/admin'
 require 'onfleet-ruby/team'
 require 'onfleet-ruby/vehicle'
 require 'onfleet-ruby/worker'
+require 'onfleet-ruby/hub'
 require 'onfleet-ruby/webhook'
 
 module Onfleet

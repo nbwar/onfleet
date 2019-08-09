@@ -1,11 +1,7 @@
 module Onfleet
   class Team < OnfleetObject
-    include Onfleet::Actions::List
-    include Onfleet::Actions::Get
-
-    def self.api_url
-      'teams'
-    end
+    onfleet_api at: 'teams', actions: %i[list get]
+    associated_with_many :tasks, serialize_as: :id
   end
 end
 

@@ -1,6 +1,9 @@
 RSpec.describe Onfleet::Recipient do
   let(:recipient) { described_class.new(params) }
-  let(:params) { { id: 'a-recipient', name: 'Recipient Jones' } }
+  let(:params) { { id: id, name: 'Recipient Jones' } }
+  let(:id) { 'a-recipient' }
+
+  it_should_behave_like Onfleet::OnfleetObject
 
   describe ".create" do
     subject { -> { described_class.create(params) } }
@@ -22,24 +25,22 @@ RSpec.describe Onfleet::Recipient do
 
   describe ".get" do
     subject { -> { described_class.get(id) } }
-    let(:id) { 'a-recipient' }
     it_should_behave_like Onfleet::Actions::Get, path: 'recipients/a-recipient'
   end
 
   describe ".update" do
     subject { -> { described_class.update(id, params) } }
-    let(:id) { 'a-recipient' }
     it_should_behave_like Onfleet::Actions::Update, path: 'recipients/a-recipient'
 
     context "with the `skip_sms_notifications` attribute" do
       set_up_request_stub(:put, 'recipients/a-recipient')
-      let(:params) { { id: 'a-recipient', skip_sms_notifications: true } }
+      let(:params) { { id: id, skip_sms_notifications: true } }
       let(:response_body) { { id: 'an-object' } }
 
       it "should camelize the attribute name properly" do
         subject.call
         expect(
-          a_request(:put, url).with(body: { id: 'a-recipient', 'skipSMSNotifications' => true }.to_json)
+          a_request(:put, url).with(body: { id: id, 'skipSMSNotifications' => true }.to_json)
         ).to have_been_made.once
       end
     end

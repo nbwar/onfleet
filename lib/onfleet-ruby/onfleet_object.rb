@@ -1,100 +1,66 @@
+require 'active_support/core_ext/string/inflections'
+require 'active_support/json'
+require 'active_support/core_ext/object/json'
+require 'onfleet-ruby/dsl'
+
 module Onfleet
   class OnfleetObject
+    include Onfleet::Dsl
+
     attr_reader :params
-    attr_accessor :id
 
-    def initialize(params)
+    def initialize(params = {})
       if params.is_a?(Hash)
-        @params = params
-        assign_attributes(@params)
+        parse_params(params)
       elsif params.is_a?(String)
-        @params = { id: params }
-        assign_attributes(@params)
-      else
-        @params = {}
+        parse_params(id: params)
       end
     end
 
-    def parse_response(response)
-      @params = response
-      assign_attributes(response)
-      self
+    def id
+      attributes['id']
     end
 
-    def attributes
-      attrs = {}
-      instance_variables.reject { |var| var == '@params' }.each do |var|
-        str = var.to_s.gsub(/^@/, '')
-        next unless respond_to?("#{str}=")
-        instance_var = instance_variable_get(var)
-        if Util.object_classes[str]
-          if instance_var.is_a?(OnfleetObject)
-            attrs[Util.to_camel_case_lower(str).to_sym] = parse_onfleet_obj(instance_var)
-          elsif instance_var.is_a?(Array)
-            objs = []
-            instance_var.each do |object|
-              objs << parse_onfleet_obj(object)
-            end
-            attrs[Util.to_camel_case_lower(str).to_sym] = objs
-          else
-            attrs[Util.to_camel_case_lower(str).to_sym] = instance_var
-          end
-        else
-          attrs[Util.to_camel_case_lower(str).to_sym] = instance_var
-        end
-      end
-      attrs
+    def id=(value)
+      attributes['id'] = value
     end
 
-    def class_name
-      self.class.name.split('::').last
-    end
-
-    def api_url
-      "#{CGI.escape(class_name.downcase)}s"
+    def as_json(*options)
+      attributes
+        .as_json(*options)
+        .transform_keys { |key| camelize_with_acronym(key) }
     end
 
     private
 
-    def parse_onfleet_obj(obj)
-      return unless obj.is_a?(OnfleetObject)
-      if obj.respond_to?('id') && obj.id && (obj.is_a?(Destination) || obj.is_a?(Recipient) || obj.is_a?(Task))
-        obj.id
-      else
-        obj.attributes
-      end
+    def attributes
+      @attributes ||= {}
     end
 
-    def assign_attributes(params)
+    def api_url
+      self.class.api_url
+    end
+
+    def parse_params(params)
+      @params = params
+
       params.each do |key, value|
-        key_underscore = Util.to_underscore(key)
-
-        if (klass = Util.object_classes[key.to_s])
-          case value
-          when Array
-            objs = []
-            value.each do |v|
-              objs << klass.new(v)
-            end
-            value = objs
-          when Hash
-            value = klass.new(value)
-          end
-        end
-
-        if respond_to?("#{key_underscore}=")
-          send(:"#{key_underscore}=", value)
-        else
-          add_attrs(key_underscore.to_s => value)
-        end
+        key = key.to_s.underscore
+        define_attribute_accessors(key) unless respond_to?(key)
+        public_send(:"#{key}=", value)
       end
     end
 
-    def add_attrs(attrs)
-      attrs.each do |var, value|
-        self.class.class_eval { attr_accessor var }
-        instance_variable_set "@#{var}", value
-      end
+    def define_attribute_accessors(attr)
+      attr = attr.to_s
+
+      singleton_class.define_method(:"#{attr}=") { |value| attributes[attr] = value }
+      singleton_class.define_method(attr) { attributes[attr] }
+    end
+
+    def camelize_with_acronym(string)
+      camelized = string.camelize(:lower)
+      camelized.gsub('Sms', 'SMS')
     end
   end
 end

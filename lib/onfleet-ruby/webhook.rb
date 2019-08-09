@@ -1,13 +1,6 @@
 module Onfleet
   class Webhook < OnfleetObject
-    include Onfleet::Actions::Create
-    include Onfleet::Actions::List
-    include Onfleet::Actions::Save
-    include Onfleet::Actions::Delete
-
-    def self.api_url
-      'webhooks'
-    end
+    onfleet_api at: 'webhooks', actions: %i[list create save delete]
   end
 end
 

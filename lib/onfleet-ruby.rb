@@ -18,6 +18,7 @@ require 'onfleet-ruby/actions/find'
 require 'onfleet-ruby/actions/save'
 require 'onfleet-ruby/actions/update'
 require 'onfleet-ruby/actions/get'
+require 'onfleet-ruby/actions/short_get'
 require 'onfleet-ruby/actions/list'
 require 'onfleet-ruby/actions/delete'
 require 'onfleet-ruby/actions/query_metadata'
@@ -99,4 +100,3 @@ module Onfleet
     end
   end
 end
-

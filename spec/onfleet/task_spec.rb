@@ -60,6 +60,15 @@ RSpec.describe Onfleet::Task do
     it_should_behave_like Onfleet::Actions::Get, path: 'tasks/a-task'
   end
 
+  describe ".short_get" do
+    subject { -> { described_class.short_get(id) } }
+    let(:id) { 'a-task' }
+    it_should_behave_like(
+      Onfleet::Actions::ShortGet,
+      path: 'tasks/short/a-task'
+    )
+  end
+
   describe ".update" do
     subject { -> { described_class.update(id, params) } }
     let(:id) { 'a-task' }
@@ -120,4 +129,3 @@ RSpec.describe Onfleet::Task do
     end
   end
 end
-
